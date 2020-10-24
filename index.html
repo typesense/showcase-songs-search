@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="shortcut icon" href="./favicon.png">
+
+  <link rel="stylesheet" href="./src/index.scss">
+
+  <title>Song Search with Typesense</title>
+  <meta name="description"
+        content="Song Search with Typesense">
+  <meta name="keywords" content="songs, search, song search, search engine, typesense"/>
+
+  <!-- TODO: Open Graph -->
+  <!--  <meta property="og:type" content="website">-->
+  <!--  <meta property="og:url" content="">-->
+  <!--  <meta property="og:title" content="Instant Search songs">-->
+  <!--  <meta name="og:description"-->
+  <!--        content=""/>-->
+  <!--  <meta property="og:image" content="./images/opengraph_banner.png">-->
+
+
+  <!-- TODO: Global site tag (gtag.js) - Google Analytics -->
+  <!--  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116415641-2"></script>&ndash;&gt;-->
+  <!--  <script>-->
+  <!--    window.dataLayer = window.dataLayer || [];-->
+
+  <!--    function gtag() {-->
+  <!--      dataLayer.push(arguments);-->
+  <!--    }-->
+
+  <!--    gtag('js', new Date());-->
+
+  <!--    gtag('config', 'UA-116415641-2', {-->
+  <!--      'linker': {-->
+  <!--        'domains': ['typesense.org', 'cloud.typesense.org'],-->
+  <!--      },-->
+  <!--    });-->
+  <!--  </script>-->
+</head>
+
+<body>
+<div class="usa-flag-gradient">
+  <small>&nbsp;</small>
+</div>
+
+<div class="container-fluid">
+  <div class="row mt-3">
+    <div class="col-md">
+      <header>
+        <div class="row">
+          <div class="col-md">
+            <h1>
+              Songs Search with Typesense
+            </h1>
+          </div>
+        </div>
+        <h6 class="lead">
+          Search through songs, albums and genres.
+        </h6>
+        <h6 class="lead d-flex align-items-end align-items-md-stretch row">
+          <div class="col-md-auto pr-md-0">
+            Share:
+          </div>
+          <div class="col-md mt-1 mt-md-0 pl-md-1">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+               class="twitter-share-button"
+               data-text="Search through songs"
+               data-hashtags="#SongSearch"
+               data-show-count="false">Tweet</a>
+          </div>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </h6>
+      </header>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md">
+      <div class="row">
+        <div class="col-md">
+          <div id="searchbox"></div>
+          <div id="stats" class="mt-1 text-muted small"></div>
+        </div>
+        <div class="col-md-2 d-flex flex-column justify-content-start mt-3 mt-md-0">
+          <div class="lead font-family-headings font-weight-light small">
+            <a href="https://typesense.org" target="_blank">
+              Instant Search powered by <br>
+              <img src="/images/typesense.svg" alt="Typesense" width="100"/>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-auto mt-2">
+          Try these terms:
+          <span class="d-none d-md-inline"><br></span>
+          (or type your own above)
+        </div>
+        <div class="col-md-9 pl-md-0">
+          <div id="example-topics">
+            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Foo</span>
+            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Rock</span>
+            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Pop</span>
+            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Denver</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hitsSection" class="row mt-4">
+    <div class="col-md">
+      <div class="row mb-2">
+        <div class="col-md d-flex justify-content-end">
+          <div id="sort-by"></div>
+        </div>
+      </div>
+      <div id="hits"></div>
+    </div>
+  </div>
+  <div id="loadMoreSection" class="row mt-1">
+    <div class="col-md">
+      <button id="backToTop" class="btn btn-link" style="min-width: 150px;">
+        <small>Back to Top</small>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="hit-template" class="d-none">
+  <div class="row mb-2">
+    <div class="col-md">
+      <div class="search-result-card p-4 pt-5 p-md-3 d-flex flex-column justify-content-between">
+        <div>
+          {{#helpers.snippet}}{ "attribute": "title" }{{/helpers.snippet}}<br>
+          {{#helpers.snippet}}{ "attribute": "primary_artist_name" }{{/helpers.snippet}}<br>
+          {{#helpers.snippet}}{ "attribute": "album_name" }{{/helpers.snippet}}
+          {{ hit }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="navbar fixed-bottom py-0">
+  <div class="container-fluid justify-content-center justify-content-md-end">
+    <span class="navbar-text">
+      <a href="#" aria-roledescription="button" data-toggle="modal" data-target="#aboutModal">
+        <span>about</span>
+      </a>|
+      <a href="#" aria-roledescription="button" data-toggle="modal" data-target="#datasetModal">
+        <span>dataset</span>
+      </a>
+    </span>
+  </div>
+</footer>
+
+<!-- About Modal -->
+<div id="aboutModal" class="modal fade" tabindex="-1" aria-labelledby="aboutLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="aboutLabel">
+          About
+        </h5>
+        <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="datasetModal" class="modal fade" tabindex="-1" aria-labelledby="datasetLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="datasetLabel">
+          Dataset
+        </h5>
+        <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        MusicBrainz
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="./src/app.js"></script>
+</body>
+
+</html>

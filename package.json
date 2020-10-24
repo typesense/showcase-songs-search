@@ -1,0 +1,36 @@
+{
+  "name": "typesense-songs-search",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "parcel index.html --port 3000",
+    "scraper": "node scripts/scraper/index.js",
+    "indexer": "node scripts/indexer/index.js",
+    "typesenseServer": "docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:0.16.0 --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors",
+    "build": "parcel build index.html --public-url https://songs-search.typesense.org",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "devDependencies": {
+    "babel-eslint": "10.0.3",
+    "eslint": "5.7.0",
+    "eslint-config-prettier": "3.6.0",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-prettier": "3.1.2",
+    "parcel-bundler": "1.12.4",
+    "prettier": "1.19.1",
+    "sass": "^1.26.11"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.2",
+    "@popperjs/core": "^2.5.3",
+    "bootstrap": "^4.5.2",
+    "instantsearch.js": "^4.8.3",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
+    "puppeteer": "^5.3.1",
+    "typesense": "^0.7.1",
+    "typesense-instantsearch-adapter": "^0.3.0",
+    "vendor": "^1.7.0"
+  }
+}

@@ -1,0 +1,38 @@
+.usa-flag-gradient {
+  line-height: 7px;
+  background: linear-gradient(90deg, #3C3B6E 0%, rgba(255, 255, 255, 0) 100%), #B22234;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+// Flush footer
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 50px; // Controls spacing from content to footer
+}
+
+footer.navbar {
+  position: absolute;
+  bottom: 0;
+  margin-top: 20px;
+
+  font-size: 0.85em;
+  background-color: $gray-100;
+  color: $navbar-light-color;
+
+  .navbar-text a {
+    color: $navbar-light-color;
+
+    &:hover {
+      color: $link-color;
+    }
+  }
+}
+
+// End flush footer
