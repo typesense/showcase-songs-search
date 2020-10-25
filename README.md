@@ -7,7 +7,7 @@ To run this project locally, install the dependencies and run the local server:
 ```sh
 yarn
 yarn run typesenseServer
-yarn run indexer
+BATCH_SIZE=1000 yarn run indexer
 yarn start
 ```
 

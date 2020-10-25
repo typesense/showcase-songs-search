@@ -26,7 +26,7 @@ async function addSongsToTypesense(songs, typesense, collectionName) {
     const returnData = await typesense
       .collections(collectionName)
       .documents()
-      .createMany(songs);
+      .import(songs);
     // console.log(returnData);
 
     const failedItems = returnData.filter(item => item.success === false);
@@ -44,12 +44,12 @@ module.exports = (async () => {
   const typesense = new Typesense.Client({
     nodes: [
       {
-        host: 'localhost',
-        port: '8108',
-        protocol: 'http',
+        host: 'jyesxngqh9543pbip-1.a1.typesense.net',
+        port: '443',
+        protocol: 'https',
       },
     ],
-    apiKey: 'xyz',
+    apiKey: 'aiUzPi325S8jnWxfR1JP3DNItw0ZKHWP',
   });
 
   const collectionName = `songs_${Date.now()}`;
