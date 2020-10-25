@@ -1,4 +1,5 @@
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
+const DATA_FILE = process.env.DATA_FILE || './scripts/data/1K-songs.json';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -92,7 +93,7 @@ module.exports = (async () => {
 
   console.log('Adding records: ');
 
-  const fileStream = fs.createReadStream('./scripts/data/1K-songs.json');
+  const fileStream = fs.createReadStream(DATA_FILE);
   const rl = readline.createInterface({
     input: fileStream,
     crlfDelay: Infinity,
