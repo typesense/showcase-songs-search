@@ -133,9 +133,10 @@ module.exports = (async () => {
               ],
               song_length: track['length'] || 0,
               country: parsedRecord['country'] || 'Unknown',
-              release_date: Date.parse(
-                parsedRecord['release-group']['first-release-date']
-              ),
+              release_date:
+                Date.parse(
+                  parsedRecord['release-group']['first-release-date']
+                ) || 0,
               release_group_primary_type:
                 parsedRecord['release-group']['primary-type'] || 'Unknown',
               release_group_secondary_types:
