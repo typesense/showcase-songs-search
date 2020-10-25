@@ -104,48 +104,54 @@ module.exports = (async () => {
   for await (const line of rl) {
     currentLine += 1;
     const parsedRecord = JSON.parse(line);
-    songs.push(
-      ...parsedRecord['media']
-        .map(media => media['tracks'])
-        .flat()
-        .map(track => {
-          const song = {
-            track_id: track['id'],
-            title: track['title'],
-            album_name: parsedRecord['title'],
-            primary_artist_name:
-              parsedRecord['artist-credit'][0]['artist']['name'],
-            primary_artist_type:
-              parsedRecord['artist-credit'][0]['artist']['type'] || 'Unknown',
-            secondary_artists: parsedRecord['artist-credit']
-              .slice(1)
-              .map(ac => ac['artist']['name']),
-            genres: [
-              ...track['recording']['genres'].map(g => g.name),
-              ...parsedRecord['genres'].map(g => g.name),
-              ...parsedRecord['release-group']['genres'].map(g => g.name),
-            ],
-            tags: [
-              ...track['recording']['tags'].map(t => t.name),
-              ...parsedRecord['tags'].map(t => t.name),
-              ...parsedRecord['release-group']['tags'].map(t => t.name),
-            ],
-            song_length: track['length'] || 0,
-            country: parsedRecord['country'] || 'Unknown',
-            release_date: Date.parse(
-              parsedRecord['release-group']['first-release-date']
-            ),
-            release_group_primary_type:
-              parsedRecord['release-group']['primary-type'] || 'Unknown',
-            release_group_secondary_types:
-              parsedRecord['release-group']['secondary-types'] || undefined,
-            urls: extractUrls(parsedRecord),
-          };
-          process.stdout.write('.');
+    try {
+      songs.push(
+        ...parsedRecord['media']
+          .map(media => media['tracks'])
+          .flat()
+          .map(track => {
+            const song = {
+              track_id: track['id'],
+              title: track['title'],
+              album_name: parsedRecord['title'],
+              primary_artist_name:
+                parsedRecord['artist-credit'][0]['artist']['name'],
+              primary_artist_type:
+                parsedRecord['artist-credit'][0]['artist']['type'] || 'Unknown',
+              secondary_artists: parsedRecord['artist-credit']
+                .slice(1)
+                .map(ac => ac['artist']['name']),
+              genres: [
+                ...track['recording']['genres'].map(g => g.name),
+                ...parsedRecord['genres'].map(g => g.name),
+                ...parsedRecord['release-group']['genres'].map(g => g.name),
+              ],
+              tags: [
+                ...track['recording']['tags'].map(t => t.name),
+                ...parsedRecord['tags'].map(t => t.name),
+                ...parsedRecord['release-group']['tags'].map(t => t.name),
+              ],
+              song_length: track['length'] || 0,
+              country: parsedRecord['country'] || 'Unknown',
+              release_date: Date.parse(
+                parsedRecord['release-group']['first-release-date']
+              ),
+              release_group_primary_type:
+                parsedRecord['release-group']['primary-type'] || 'Unknown',
+              release_group_secondary_types:
+                parsedRecord['release-group']['secondary-types'] || undefined,
+              urls: extractUrls(parsedRecord),
+            };
+            process.stdout.write('.');
 
-          return song;
-        })
-    );
+            return song;
+          })
+      );
+    } catch (e) {
+      console.error(e);
+      console.error(parsedRecord);
+      throw e;
+    }
 
     if (currentLine % BATCH_SIZE === 0) {
       await addSongsToTypesense(songs, typesense, collectionName);
