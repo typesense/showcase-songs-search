@@ -85,7 +85,7 @@ module.exports = (async () => {
     default_sorting_field: 'release_date',
   };
 
-  console.log('Populating index in Typesense');
+  console.log(`Populating new collection in Typesense ${collectionName}`);
 
   console.log('Creating schema: ');
   // console.log(JSON.stringify(schema, null, 2));
@@ -109,6 +109,7 @@ module.exports = (async () => {
         ...parsedRecord['media']
           .map(media => media['tracks'])
           .flat()
+          .filter(track => track) // To remove nulls
           .map(track => {
             const song = {
               track_id: track['id'],
