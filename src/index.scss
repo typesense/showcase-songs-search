@@ -2,8 +2,13 @@
 @import 'app';
 
 .search-result-card {
-  min-height: 145px;
+  min-height: 175px;
   font-size: 12px;
+}
+
+mark {
+  background-color: #adce6d94;
+  padding: 0 0.08em;
 }
 
 .ais-SearchBox-loadingIndicator {

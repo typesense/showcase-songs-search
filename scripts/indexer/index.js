@@ -61,25 +61,11 @@ module.exports = (async () => {
       { name: 'title', type: 'string' },
       { name: 'album_name', type: 'string', optional: true },
       { name: 'primary_artist_name', type: 'string', facet: true },
-      { name: 'primary_artist_type', type: 'string', facet: true },
-      {
-        name: 'additional_artists',
-        type: 'string[]',
-        facet: true,
-        optional: true,
-      },
       { name: 'genres', type: 'string[]', facet: true },
-      { name: 'tags', type: 'string[]', facet: true },
       { name: 'song_length', type: 'int32', facet: true, optional: true },
       { name: 'country', type: 'string', facet: true },
       { name: 'release_date', type: 'int64', facet: true },
-      { name: 'release_group_primary_type', type: 'string', facet: true },
-      {
-        name: 'release_group_secondary_types',
-        type: 'string[]',
-        facet: true,
-        optional: true,
-      },
+      { name: 'release_group_types', type: 'string[]', facet: true },
       // { name: 'urls'},
     ],
     default_sorting_field: 'release_date',
@@ -117,16 +103,14 @@ module.exports = (async () => {
               album_name: parsedRecord['title'],
               primary_artist_name:
                 parsedRecord['artist-credit'][0]['artist']['name'],
-              primary_artist_type:
-                parsedRecord['artist-credit'][0]['artist']['type'] || 'Unknown',
-              secondary_artists: parsedRecord['artist-credit']
-                .slice(1)
-                .map(ac => ac['artist']['name']),
               genres: [
                 ...track['recording']['genres'].map(g => g.name),
                 ...parsedRecord['genres'].map(g => g.name),
                 ...parsedRecord['release-group']['genres'].map(g => g.name),
-              ],
+              ].map(
+                ([firstChar, ...rest]) =>
+                  firstChar.toUpperCase() + rest.join('').toLowerCase()
+              ),
               tags: [
                 ...track['recording']['tags'].map(t => t.name),
                 ...parsedRecord['tags'].map(t => t.name),
@@ -138,10 +122,12 @@ module.exports = (async () => {
                 Date.parse(
                   parsedRecord['release-group']['first-release-date']
                 ) || 0,
-              release_group_primary_type:
+              release_group_types: [
                 parsedRecord['release-group']['primary-type'] || 'Unknown',
-              release_group_secondary_types:
-                parsedRecord['release-group']['secondary-types'] || undefined,
+                parsedRecord['release-group']['secondary-types'] || null,
+              ]
+                .flat()
+                .filter(e => e),
               urls: extractUrls(parsedRecord),
             };
             process.stdout.write('.');
