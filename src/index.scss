@@ -1,18 +1,9 @@
 @import 'bootstrap';
 @import 'app';
 
-@media (min-width: 768px) {
-  .search-result-card {
-    min-height: 100px;
-  }
-}
-
-#hits .search-result-card {
-  background-color: $gray-300;
-
-  mark {
-    background-color: darken($blue-light, 20%);
-  }
+.search-result-card {
+  min-height: 145px;
+  font-size: 12px;
 }
 
 .ais-SearchBox-loadingIndicator {

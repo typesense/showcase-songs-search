@@ -1,14 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Arimo:wght@400;700&family=Chivo:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Slab&display=swap');
 
-$headings-font-family: 'Chivo', sans-serif;
-$font-family-sans-serif: 'Arimo', sans-serif;
-$input-font-family: 'Chivo', sans-serif;
+$primary: #A30015;
+$secondary: #F8EECE;
+$gray-100: #fcfbfb !default;
+$gray-200: #faf9f8 !default;
+$gray-300: #f8f7f5 !default;
+$gray-400: #f5f3f1 !default;
+$gray-500: #dddbd9 !default;
+$gray-600: #c4c2c1 !default;
+$gray-700: #acaaa9 !default;
+$gray-800: #7b7a79 !default;
+$gray-900: #494948 !default;
+$black:    #020202 !default;
 
+$component-active-bg: $secondary;
+
+$input-color: $primary;
+$custom-select-bg: $gray-300;
+
+$input-padding-x: 1.3rem;
+$input-padding-y: .8rem;
+
+$font-family-sans-serif: 'Istok Web', sans-serif;
 $font-size-base: 0.9rem;
 $input-font-size: 1.4rem;
 
 $input-font-weight: 500;
-$headings-font-weight: 700;
+$headings-font-weight: 900;
 $display1-weight: 500;
 $display2-weight: 500;
 $display3-weight: 500;
@@ -20,12 +38,6 @@ $badge-font-size: 75%;
 $badge-font-weight: 300;
 $badge-pill-padding-x: 1.5em;
 $badge-padding-y: 0.75em;
-
-$primary: #112A14;
-$blue-light: #F8F8FC;
-$red-light: #FCF8F8;
-
-$input-color: $primary;
 
 $enable-rounded: false;
 
@@ -41,16 +53,12 @@ input {
   letter-spacing: -0.05rem;
 }
 
-.font-cursive {
-  font-family: 'Abril Fatface', cursive;
+.font-serif {
+  font-family: 'Roboto Slab', serif;
 }
 
-.font-letter-spacing-tight {
-  letter-spacing: -0.12rem;
-}
-
-.font-family-headings {
-  font-family: $headings-font-family;
+.font-letter-spacing-loose {
+  letter-spacing: 0.02rem;
 }
 
 .border-light-2 {
@@ -58,5 +66,12 @@ input {
 }
 
 .bg-light-2 {
-  background-color: $gray-200;
+  background-color: $gray-400;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 20px;
+  row-gap: 20px;
 }

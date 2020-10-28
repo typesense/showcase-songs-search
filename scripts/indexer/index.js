@@ -45,12 +45,12 @@ module.exports = (async () => {
   const typesense = new Typesense.Client({
     nodes: [
       {
-        host: 'jyesxngqh9543pbip-1.a1.typesense.net',
-        port: '443',
-        protocol: 'https',
+        host: 'localhost',
+        port: '8108',
+        protocol: 'http',
       },
     ],
-    apiKey: 'aiUzPi325S8jnWxfR1JP3DNItw0ZKHWP',
+    apiKey: 'xyz',
   });
 
   const collectionName = `songs_${Date.now()}`;

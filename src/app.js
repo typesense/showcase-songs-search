@@ -8,7 +8,6 @@ import 'bootstrap';
 import instantsearch from 'instantsearch.js/es';
 import {
   searchBox,
-  index,
   infiniteHits,
   configure,
   stats,
@@ -20,12 +19,12 @@ import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
-    apiKey: 'JI4dMXT5jzAEce1MGjBLm629uhW6f054', // Be sure to use an API key that only allows searches, in production
+    apiKey: 'xyz', // Be sure to use an API key that only allows searches, in production
     nodes: [
       {
-        host: 'jyesxngqh9543pbip-1.a1.typesense.net',
-        port: '443',
-        protocol: 'https',
+        host: 'localhost',
+        port: '8108',
+        protocol: 'http',
       },
     ],
   },
@@ -36,23 +35,14 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     queryBy:
       'title,album_name,primary_artist_name,additional_artists,genres,tags',
     highlightAffixNumTokens: 50,
-    typoTokensThreshold: 2,
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
-
+const indexName = 's';
 const search = instantsearch({
   searchClient,
-  indexName: 's',
+  indexName: indexName,
   routing: true,
-  searchFunction(helper) {
-    if (helper.state.query === '') {
-      $('#hitsSection,#loadMoreSection').addClass('d-none');
-    } else {
-      $('#hitsSection,#loadMoreSection').removeClass('d-none');
-    }
-    helper.search();
-  },
 });
 
 search.addWidgets([
@@ -81,22 +71,23 @@ search.addWidgets([
   infiniteHits({
     container: '#hits',
     cssClasses: {
-      list: 'list-unstyled',
+      list: 'list-unstyled grid-container',
+      item: 'bg-light-2',
       loadMore: 'btn btn-primary',
     },
     templates: {
       item: window.$('#hit-template').html(),
-      empty: 'No results for <q>{{ query }}</q>. Try another topic.',
+      empty: 'No songs found for <q>{{ query }}</q>. Try another search term.',
     },
   }),
   configure({
-    hitsPerPage: 25,
+    hitsPerPage: 15,
   }),
   sortBy({
     container: '#sort-by',
     items: [
-      { label: 'Recent first', value: 's' },
-      { label: 'Oldest first', value: 's/sort/release_date:asc' },
+      { label: 'Recent first', value: `${indexName}` },
+      { label: 'Oldest first', value: `${indexName}/sort/release_date:asc` },
     ],
     cssClasses: {
       select: 'custom-select custom-select-sm',
@@ -108,17 +99,17 @@ search.start();
 
 $(function() {
   // Set initial topic, if empty
-  if (
-    $('input[type=search]')
-      .val()
-      .trim() === ''
-  ) {
-    $('input[type=search]').val('Pop');
-    search.helper.setQuery($('input[type=search]').val()).search();
-  }
+  // if (
+  //   $('input[type=search]')
+  //     .val()
+  //     .trim() === ''
+  // ) {
+  //   $('input[type=search]').val('Billy');
+  //   search.helper.setQuery($('input[type=search]').val()).search();
+  // }
 
-  // Handle example topics
-  $('#example-topics span[role=button]').on('click', event => {
+  // Handle example search terms
+  $('#example-search-terms a').on('click', event => {
     $('input[type=search]').val(event.target.textContent);
     search.helper.setQuery($('input[type=search]').val()).search();
 
@@ -132,11 +123,5 @@ $(function() {
         );
       }, 1000);
     }
-  });
-
-  // Back to top button
-  $('#backToTop').on('click', event => {
-    $('html, body').animate({ scrollTop: 0 }, 'slow');
-    $('input[type=search]').focus();
   });
 });

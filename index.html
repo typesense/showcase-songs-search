@@ -45,104 +45,86 @@
 </head>
 
 <body>
-<div class="usa-flag-gradient">
-  <small>&nbsp;</small>
+<div class="row no-gutters mt-3 ">
+  <div class="col-md">
+    <header>
+      <div class="row no-gutters">
+        <div class="col-md">
+          <h1 class="text-center font-letter-spacing-loose font-serif">
+            Instant Search 32 Million Songs
+          </h1>
+          <h4 class="text-center">
+            from
+            <img src="images/MusicBrainz_logo.svg" height="45" alt="MusicBrainz" class="mx-3"/>
+            <span class="">with</span>
+            <img src="images/typesense.svg" height="32" alt="Typesense" class="mx-3"/>
+          </h4>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
+
+<div class="row mt-3 no-gutters">
+  <div class="col-md">
+    <div class="bg-secondary pt-5 pb-4 px-5">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8">
+          <div id="searchbox"></div>
+          <div class="mt-2">
+            Try:
+            <span id="example-search-terms">
+            <a role="button" class="">Foo</a>,
+            <a role="button" class="">Rock</a>,
+            <a role="button" class="">Pop</a>,
+            <a role="button" class="">Denver</a>
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="container-fluid">
+
   <div class="row mt-3">
-    <div class="col-md">
-      <header>
-        <div class="row">
-          <div class="col-md">
-            <h1>
-              Songs Search with Typesense
-            </h1>
-          </div>
-        </div>
-        <h6 class="lead">
-          Search through songs, albums and genres.
-        </h6>
-        <h6 class="lead d-flex align-items-end align-items-md-stretch row">
-          <div class="col-md-auto pr-md-0">
-            Share:
-          </div>
-          <div class="col-md mt-1 mt-md-0 pl-md-1">
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-               class="twitter-share-button"
-               data-text="Search through songs"
-               data-hashtags="#SongSearch"
-               data-show-count="false">Tweet</a>
-          </div>
-          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </h6>
-      </header>
+    <div class="col-md-3">
     </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-md">
-      <div class="row">
-        <div class="col-md">
-          <div id="searchbox"></div>
-          <div id="stats" class="mt-1 text-muted small"></div>
-        </div>
-        <div class="col-md-2 d-flex flex-column justify-content-start mt-3 mt-md-0">
-          <div class="lead font-family-headings font-weight-light small">
-            <a href="https://typesense.org" target="_blank">
-              Instant Search powered by <br>
-              <img src="/images/typesense.svg" alt="Typesense" width="100"/>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-md-auto mt-2">
-          Try these terms:
-          <span class="d-none d-md-inline"><br></span>
-          (or type your own above)
-        </div>
-        <div class="col-md-9 pl-md-0">
-          <div id="example-topics">
-            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Foo</span>
-            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Rock</span>
-            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Pop</span>
-            <span role="button" class="badge badge-pill badge-primary ml-2 mt-2">Denver</span>
-          </div>
-        </div>
-      </div>
+    <div class="col-md d-flex align-items-center">
+      <div id="sort-by"></div>
+      <div id="stats" class="ml-2 small"></div>
     </div>
   </div>
 
-  <div id="hitsSection" class="row mt-4">
-    <div class="col-md">
-      <div class="row mb-2">
-        <div class="col-md d-flex justify-content-end">
-          <div id="sort-by"></div>
-        </div>
-      </div>
-      <div id="hits"></div>
+  <div class="row mt-3">
+    <div class="col-md-3">
     </div>
-  </div>
-  <div id="loadMoreSection" class="row mt-1">
     <div class="col-md">
-      <button id="backToTop" class="btn btn-link" style="min-width: 150px;">
-        <small>Back to Top</small>
-      </button>
+      <div id="hits"></div>
     </div>
   </div>
 </div>
 
 <div id="hit-template" class="d-none">
-  <div class="row mb-2">
-    <div class="col-md">
-      <div class="search-result-card p-4 pt-5 p-md-3 d-flex flex-column justify-content-between">
-        <div>
-          {{#helpers.snippet}}{ "attribute": "title" }{{/helpers.snippet}}<br>
-          {{#helpers.snippet}}{ "attribute": "primary_artist_name" }{{/helpers.snippet}}<br>
-          {{#helpers.snippet}}{ "attribute": "album_name" }{{/helpers.snippet}}
-          {{ hit }}
-        </div>
-      </div>
+  <div class="search-result-card p-4 pt-5 p-md-3">
+    <h5 class="text-primary font-weight-light font-letter-spacing-loose mb-0">
+      {{#helpers.snippet}}{ "attribute": "title" }{{/helpers.snippet}}
+    </h5>
+    <div>
+      by {{#helpers.snippet}}{ "attribute": "primary_artist_name" }{{/helpers.snippet}}
+    </div>
+    <div class="mt-3">
+      from {{#helpers.snippet}}{ "attribute": "album_name" }{{/helpers.snippet}}
+    </div>
+    <div class="text-muted small">
+      Released {{ release_date }}
+    </div>
+
+    <div class="mt-4 text-right">
+      {{#urls}}
+      <a href="{{ url }}" target="_blank">{{ type }}</a>
+      {{/urls}}
     </div>
   </div>
 </div>
