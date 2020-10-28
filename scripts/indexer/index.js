@@ -14,7 +14,6 @@ function extractUrls(parsedRecord) {
         'free streaming',
         'download for free',
         'purchase for download',
-        'purchase for mail-order',
       ].includes(r['type'])
     )
     .map(r => {
@@ -45,9 +44,9 @@ module.exports = (async () => {
   const typesense = new Typesense.Client({
     nodes: [
       {
-        host: 'localhost',
-        port: '8108',
-        protocol: 'http',
+        host: 'scui76a9tyerv8o1p.a1.typesense.net',
+        port: '443',
+        protocol: 'https',
       },
     ],
     apiKey: 'xyz',
