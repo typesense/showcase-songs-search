@@ -208,7 +208,7 @@ search.addWidgets([
       { label: '1990s', start: 631152000, end: 946684799 },
       { label: '2000s', start: 946684800, end: 1262303999 },
       { label: '2010s', start: 1262304000, end: 1577836799 },
-      { label: '2020s', start: 1577836800 }, //, end: 1893455999
+      { label: '2020s', start: 1577836800, end: 1893455999 },
     ],
     cssClasses: {
       list: 'list-unstyled',
