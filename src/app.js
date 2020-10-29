@@ -32,6 +32,8 @@ function iconForUrlObject(urlObject) {
     return images['youtube_icon']['svg'];
   } else if (urlObject['url'].includes('tidal.com')) {
     return images['tidal_icon']['svg'];
+  } else if (urlObject['url'].includes('play.google.com')) {
+    return images['google_play_icon']['svg'];
   } else if (urlObject['url'].includes('deezer.com')) {
     return images['deezer_icon']['svg'];
   } else if (urlObject['url'].includes('archive.org')) {
