@@ -112,11 +112,6 @@ module.exports = (async () => {
                 ([firstChar, ...rest]) =>
                   firstChar.toUpperCase() + rest.join('').toLowerCase()
               ),
-              tags: [
-                ...track['recording']['tags'].map(t => t.name),
-                ...parsedRecord['tags'].map(t => t.name),
-                ...parsedRecord['release-group']['tags'].map(t => t.name),
-              ],
               country: parsedRecord['country'] || 'Unknown',
               release_date:
                 Math.round(
