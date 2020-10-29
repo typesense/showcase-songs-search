@@ -30,10 +30,17 @@ function iconForUrlObject(urlObject) {
     return images['apple_music_icon']['svg'];
   } else if (urlObject['url'].includes('youtube.com')) {
     return images['youtube_icon']['svg'];
-  } else if (urlObject['url'].includes('tidal.com')) {
+  } else if (urlObject['url'].includes('soundcloud.com')) {
+    return images['soundcloud_icon']['svg'];
+  } else if (
+    urlObject['url'].includes('tidal.com') ||
+    urlObject['url'].includes('tidalhifi.com')
+  ) {
     return images['tidal_icon']['svg'];
   } else if (urlObject['url'].includes('play.google.com')) {
     return images['google_play_icon']['svg'];
+  } else if (urlObject['url'].includes('bandcamp.com')) {
+    return images['bandcamp_icon']['svg'];
   } else if (urlObject['url'].includes('deezer.com')) {
     return images['deezer_icon']['svg'];
   } else if (urlObject['url'].includes('archive.org')) {
