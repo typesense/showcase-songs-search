@@ -68,10 +68,3 @@ input {
 .bg-light-2 {
   background-color: $gray-400;
 }
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 20px;
-  row-gap: 20px;
-}

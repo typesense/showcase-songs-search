@@ -88,7 +88,7 @@ search.addWidgets([
     cssClasses: {
       list: 'list-unstyled grid-container',
       item: 'd-flex flex-column search-result-card bg-light-2 p-4 pt-5 p-md-3',
-      loadMore: 'btn btn-primary',
+      loadMore: 'btn btn-primary mx-auto d-block mt-4',
     },
     templates: {
       item: `

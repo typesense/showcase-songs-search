@@ -6,13 +6,25 @@
   font-size: 12px;
 }
 
+@media (min-width: 768px) {
+  #filters-section.d-md-block {
+    display: block !important;
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 10px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 20px;
+    row-gap: 20px;
+  }
+}
+
 mark {
   background-color: #adce6d94;
   padding: 0 0.08em;
-}
-
-.ais-SearchBox-loadingIndicator {
-  position: absolute;
-  top: 14px;
-  right: 55px;
 }
