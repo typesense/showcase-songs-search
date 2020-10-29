@@ -98,12 +98,12 @@ search.addWidgets([
 
   analytics({
     pushFunction(formattedParameters, state, results) {
-      window.gtag(
+      window.ga(
         'set',
         'page',
         (window.location.pathname + window.location.search).toLowerCase()
       );
-      window.gtag('send', 'pageView');
+      window.ga('send', 'pageView');
     },
   }),
 
