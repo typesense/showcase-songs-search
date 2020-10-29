@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
 const DATA_FILE = process.env.DATA_FILE || './scripts/data/1K-songs.json';
 
@@ -44,12 +46,12 @@ module.exports = (async () => {
   const typesense = new Typesense.Client({
     nodes: [
       {
-        host: 'scui76a9tyerv8o1p.a1.typesense.net',
-        port: '443',
-        protocol: 'https',
+        host: process.env.TYPESENSE_HOST,
+        port: process.env.TYPESENSE_PORT,
+        protocol: process.env.TYPESENSE_PROTOCOL,
       },
     ],
-    apiKey: 'xyz',
+    apiKey: process.env.TYPESENSE_ADMIN_API_KEY,
   });
 
   const collectionName = `songs_${Date.now()}`;

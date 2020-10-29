@@ -25,6 +25,7 @@
     "@babel/runtime": "^7.10.2",
     "@popperjs/core": "^2.5.3",
     "bootstrap": "^4.5.2",
+    "dotenv": "^8.2.0",
     "instantsearch.js": "^4.8.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",

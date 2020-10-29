@@ -31,12 +31,12 @@ function iconForUrlObject(urlObject) {
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
-    apiKey: 'xyz', // Be sure to use an API key that only allows searches, in production
+    apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
     nodes: [
       {
-        host: 'localhost',
-        port: '8108',
-        protocol: 'http',
+        host: process.env.TYPESENSE_HOST,
+        port: process.env.TYPESENSE_PORT,
+        protocol: process.env.TYPESENSE_PROTOCOL,
       },
     ],
   },
@@ -45,7 +45,6 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  queryBy is required.
   additionalSearchParameters: {
     queryBy: 'title,album_name',
-    highlightAffixNumTokens: 50,
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
@@ -88,13 +87,13 @@ search.addWidgets([
     templates: {
       item: `
             <h6 class="text-primary font-weight-light font-letter-spacing-loose mb-0">
-              {{#helpers.snippet}}{ "attribute": "title" }{{/helpers.snippet}}
+              {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
             </h6>
             <div>
-              by {{#helpers.snippet}}{ "attribute": "primary_artist_name" }{{/helpers.snippet}}
+              by {{#helpers.highlight}}{ "attribute": "primary_artist_name" }{{/helpers.highlight}}
             </div>
             <div class="mt-3">
-              from {{#helpers.snippet}}{ "attribute": "album_name" }{{/helpers.snippet}}
+              from {{#helpers.highlight}}{ "attribute": "album_name" }{{/helpers.highlight}}
             </div>
             <div class="text-muted small mb-3">
               Released {{ release_date_display }}
