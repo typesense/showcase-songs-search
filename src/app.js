@@ -24,6 +24,8 @@ function iconForUrlObject(urlObject) {
     return images['amazon_icon']['svg'];
   } else if (urlObject['url'].includes('spotify.com')) {
     return images['spotify_icon']['svg'];
+  } else if (urlObject['url'].includes('archive.org')) {
+    return images['archive_icon']['svg'];
   } else {
     return images['generic_song_link_icon']['svg'];
   }
