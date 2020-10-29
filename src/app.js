@@ -96,7 +96,7 @@ search.addWidgets([
               from {{#helpers.highlight}}{ "attribute": "album_name" }{{/helpers.highlight}}
             </div>
             <div class="text-muted small mb-3">
-              Released {{ release_date_display }}
+              {{ release_date_display }}
             </div>
 
             <div class="mt-auto text-right">
@@ -115,8 +115,7 @@ search.addWidgets([
             const parsedDate = new Date(item.release_date * 1000);
             return `${parsedDate.getUTCFullYear()}/${(
               '0' +
-              parsedDate.getUTCMonth() +
-              1
+              (parsedDate.getUTCMonth() + 1)
             ).slice(-2)}`;
           })(),
           urls: item.urls.map(urlObj => {
@@ -209,7 +208,7 @@ search.addWidgets([
       { label: '1990s', start: 631152000, end: 946684799 },
       { label: '2000s', start: 946684800, end: 1262303999 },
       { label: '2010s', start: 1262304000, end: 1577836799 },
-      { label: '2020s', start: 1577836800 },
+      { label: '2020s', start: 1577836800 }, //, end: 1893455999
     ],
     cssClasses: {
       list: 'list-unstyled',
@@ -246,18 +245,7 @@ $(function() {
 
   // Handle example search terms
   $('#example-search-terms a').on('click', event => {
-    $('input[type=search]').val(event.target.textContent);
-    search.helper.setQuery($('input[type=search]').val()).search();
-
-    if (!matchMedia('(min-width: 768px)').matches) {
-      setTimeout(() => {
-        $('html, body').animate(
-          {
-            scrollTop: $('#best-experienced-warning').offset().top,
-          },
-          500
-        );
-      }, 1000);
-    }
+    $('#searchbox input[type=search]').val(event.target.textContent);
+    search.helper.setQuery($('#searchbox input[type=search]').val()).search();
   });
 });
