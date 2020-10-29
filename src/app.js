@@ -67,12 +67,16 @@ search.addWidgets([
     },
   }),
 
-  // analytics({
-  //   pushFunction(formattedParameters, state, results) {
-  //     window.ga('set', 'page', (window.location.pathname + window.location.search).toLowerCase());
-  //     window.ga('send', 'pageView');
-  //   },
-  // }),
+  analytics({
+    pushFunction(formattedParameters, state, results) {
+      window.ga(
+        'set',
+        'page',
+        (window.location.pathname + window.location.search).toLowerCase()
+      );
+      window.ga('send', 'pageView');
+    },
+  }),
 
   stats({
     container: '#stats',

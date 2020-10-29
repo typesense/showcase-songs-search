@@ -11,9 +11,9 @@
 
   <link rel="stylesheet" href="./src/index.scss">
 
-  <title>Song Search with Typesense</title>
+  <title>Songs Search with Typesense</title>
   <meta name="description"
-        content="Song Search with Typesense">
+        content="Songs Search with Typesense">
   <meta name="keywords" content="songs, search, song search, search engine, typesense"/>
 
   <!-- TODO: Open Graph -->
@@ -25,23 +25,23 @@
   <!--  <meta property="og:image" content="./images/opengraph_banner.png">-->
 
 
-  <!-- TODO: Global site tag (gtag.js) - Google Analytics -->
-  <!--  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116415641-2"></script>&ndash;&gt;-->
-  <!--  <script>-->
-  <!--    window.dataLayer = window.dataLayer || [];-->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CD8792QY1N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-  <!--    function gtag() {-->
-  <!--      dataLayer.push(arguments);-->
-  <!--    }-->
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
-  <!--    gtag('js', new Date());-->
+    gtag('js', new Date());
 
-  <!--    gtag('config', 'UA-116415641-2', {-->
-  <!--      'linker': {-->
-  <!--        'domains': ['typesense.org', 'cloud.typesense.org'],-->
-  <!--      },-->
-  <!--    });-->
-  <!--  </script>-->
+    gtag('config', 'G-CD8792QY1N', {
+      'linker': {
+        'domains': ['typesense.org', 'cloud.typesense.org'],
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -55,9 +55,12 @@
           </h1>
           <h4 class="text-center">
             from
-            <img src="images/MusicBrainz_logo.svg" height="45" alt="MusicBrainz" class="mx-3"/>
+            <a href="https://musicbrainz.org/" target="_blank">
+              <img src="images/MusicBrainz_logo.svg" height="45" alt="MusicBrainz" class="mx-3"/></a>
             <span class="">with</span>
-            <img src="images/typesense.svg" height="32" alt="Typesense" class="mx-3"/>
+            <a href="https://typesense.org" target="_blank">
+              <img src="images/typesense.svg" height="32" alt="Typesense" class="mx-3"/>
+            </a>
           </h4>
         </div>
       </div>
