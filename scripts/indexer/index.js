@@ -64,7 +64,6 @@ module.exports = (async () => {
       { name: 'album_name', type: 'string', optional: true },
       { name: 'primary_artist_name', type: 'string', facet: true },
       { name: 'genres', type: 'string[]', facet: true },
-      { name: 'song_length', type: 'int32', facet: true, optional: true },
       { name: 'country', type: 'string', facet: true },
       { name: 'release_date', type: 'int64', facet: true },
       { name: 'release_group_types', type: 'string[]', facet: true },
@@ -118,11 +117,12 @@ module.exports = (async () => {
                 ...parsedRecord['tags'].map(t => t.name),
                 ...parsedRecord['release-group']['tags'].map(t => t.name),
               ],
-              song_length: track['length'] || 0,
               country: parsedRecord['country'] || 'Unknown',
               release_date:
-                Date.parse(
-                  parsedRecord['release-group']['first-release-date']
+                Math.round(
+                  Date.parse(
+                    parsedRecord['release-group']['first-release-date']
+                  ) / 1000
                 ) || 0,
               release_group_types: [
                 parsedRecord['release-group']['primary-type'] || 'Unknown',

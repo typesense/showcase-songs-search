@@ -112,7 +112,7 @@ search.addWidgets([
         return {
           ...item,
           release_date_display: (() => {
-            const parsedDate = new Date(item.release_date);
+            const parsedDate = new Date(item.release_date * 1000);
             return `${parsedDate.getUTCFullYear()}/${(
               '0' +
               parsedDate.getUTCMonth() +
