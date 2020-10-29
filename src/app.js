@@ -20,7 +20,10 @@ import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import images from '../images/*.*';
 
 function iconForUrlObject(urlObject) {
-  if (urlObject['type'] === 'amazon asin') {
+  if (
+    urlObject['type'] === 'amazon asin' ||
+    urlObject['url'].includes('amazon.com')
+  ) {
     return images['amazon_icon']['svg'];
   } else if (urlObject['url'].includes('spotify.com')) {
     return images['spotify_icon']['svg'];
