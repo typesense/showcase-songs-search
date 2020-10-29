@@ -24,6 +24,16 @@ function iconForUrlObject(urlObject) {
     return images['amazon_icon']['svg'];
   } else if (urlObject['url'].includes('spotify.com')) {
     return images['spotify_icon']['svg'];
+  } else if (urlObject['url'].includes('itunes.apple.com')) {
+    return images['itunes_icon']['svg'];
+  } else if (urlObject['url'].includes('music.apple.com')) {
+    return images['apple_music_icon']['svg'];
+  } else if (urlObject['url'].includes('youtube.com')) {
+    return images['youtube_icon']['svg'];
+  } else if (urlObject['url'].includes('tidal.com')) {
+    return images['tidal_icon']['svg'];
+  } else if (urlObject['url'].includes('deezer.com')) {
+    return images['deezer_icon']['svg'];
   } else if (urlObject['url'].includes('archive.org')) {
     return images['archive_icon']['svg'];
   } else {
