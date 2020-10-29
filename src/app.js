@@ -46,7 +46,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
   additionalSearchParameters: {
-    queryBy: 'title,album_name',
+    queryBy: 'title,album_name,primary_artist_name',
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
@@ -55,6 +55,14 @@ const search = instantsearch({
   searchClient,
   indexName: indexName,
   routing: true,
+  searchFunction(helper) {
+    if (helper.state.query === '') {
+      $('#results-section').addClass('d-none');
+    } else {
+      $('#results-section').removeClass('d-none');
+      helper.search();
+    }
+  },
 });
 
 search.addWidgets([
@@ -62,7 +70,7 @@ search.addWidgets([
     container: '#searchbox',
     showSubmit: false,
     showReset: false,
-    placeholder: 'Search for a song or album title',
+    placeholder: 'Search for a song, album or artist',
     autofocus: true,
     cssClasses: {
       input: 'form-control',
@@ -241,14 +249,19 @@ search.start();
 $(function() {
   const $searchBox = $('#searchbox input[type=search]');
   // Set initial search term
-  if ($searchBox.val().trim() === '') {
-    $searchBox.val('Song');
-    search.helper.setQuery($searchBox.val()).search();
-  }
+  // if ($searchBox.val().trim() === '') {
+  //   $searchBox.val('Song');
+  //   search.helper.setQuery($searchBox.val()).search();
+  // }
 
   // Handle example search terms
   $('#example-search-terms a').on('click', event => {
     $searchBox.val(event.target.textContent);
     search.helper.setQuery($searchBox.val()).search();
+  });
+
+  // Clear refinements, when searching
+  $searchBox.on('keydown', event => {
+    search.helper.clearRefinements();
   });
 });
