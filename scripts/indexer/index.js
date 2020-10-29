@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
+const MAX_LINES = process.env.MAX_LINES || Infinity;
 const DATA_FILE = process.env.DATA_FILE || './scripts/data/1K-songs.json';
 
 const fs = require('fs');
@@ -146,6 +147,10 @@ module.exports = (async () => {
       await addSongsToTypesense(songs, typesense, collectionName);
       console.log('✅');
       songs = [];
+    }
+
+    if (currentLine >= MAX_LINES) {
+      break;
     }
   }
 
