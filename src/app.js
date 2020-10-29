@@ -100,6 +100,14 @@ search.addWidgets([
 
   stats({
     container: '#stats',
+    templates: {
+      text: `
+      {{#hasNoResults}}No results{{/hasNoResults}}
+      {{#hasOneResult}}1 result{{/hasOneResult}}
+      {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}} results{{/hasManyResults}}
+      found. Searched 32 Million songs in {{processingTimeMS}}ms.
+    `,
+    },
   }),
   infiniteHits({
     container: '#hits',
