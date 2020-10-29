@@ -12,6 +12,12 @@
   }
 }
 
+a.clickable-search-term {
+  color: unset;
+  text-decoration: underline darken($secondary, 40%);
+  cursor: pointer;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -25,7 +31,8 @@
 }
 
 mark {
-  background-color: #adce6d94;
+  color: unset;
+  background-color: rgba(darken($secondary, 5%), .7);
   padding: 0 0.08em;
 }
 

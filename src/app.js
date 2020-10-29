@@ -114,7 +114,8 @@ search.addWidgets([
               {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
             </h6>
             <div>
-              by {{#helpers.highlight}}{ "attribute": "primary_artist_name" }{{/helpers.highlight}}
+              by
+              <a role="button" class="clickable-search-term">{{#helpers.highlight}}{ "attribute": "primary_artist_name" }{{/helpers.highlight}}</a>
             </div>
             <div class="mt-3">
               from {{#helpers.highlight}}{ "attribute": "album_name" }{{/helpers.highlight}}
@@ -254,6 +255,16 @@ search.addWidgets([
   }),
 ]);
 
+search.on('render', function() {
+  const $searchBox = $('#searchbox input[type=search]');
+
+  // Make artist names clickable
+  $('#hits .clickable-search-term').on('click', event => {
+    $searchBox.val(event.currentTarget.textContent);
+    search.helper.setQuery($searchBox.val()).search();
+  });
+});
+
 search.start();
 
 $(function() {
@@ -265,8 +276,8 @@ $(function() {
   // }
 
   // Handle example search terms
-  $('#example-search-terms a').on('click', event => {
-    $searchBox.val(event.target.textContent);
+  $('.clickable-search-term').on('click', event => {
+    $searchBox.val(event.currentTarget.textContent);
     search.helper.setQuery($searchBox.val()).search();
   });
 
