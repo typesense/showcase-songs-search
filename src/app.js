@@ -239,19 +239,16 @@ search.addWidgets([
 search.start();
 
 $(function() {
-  // Set initial topic, if empty
-  // if (
-  //   $('input[type=search]')
-  //     .val()
-  //     .trim() === ''
-  // ) {
-  //   $('input[type=search]').val('Billy');
-  //   search.helper.setQuery($('input[type=search]').val()).search();
-  // }
+  const $searchBox = $('#searchbox input[type=search]');
+  // Set initial search term
+  if ($searchBox.val().trim() === '') {
+    $searchBox.val('Song');
+    search.helper.setQuery($searchBox.val()).search();
+  }
 
   // Handle example search terms
   $('#example-search-terms a').on('click', event => {
-    $('#searchbox input[type=search]').val(event.target.textContent);
-    search.helper.setQuery($('#searchbox input[type=search]').val()).search();
+    $searchBox.val(event.target.textContent);
+    search.helper.setQuery($searchBox.val()).search();
   });
 });
