@@ -48,7 +48,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
-const indexName = 's';
+const indexName = 'songs_1603939169585';
 const search = instantsearch({
   searchClient,
   indexName: indexName,
