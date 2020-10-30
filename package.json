@@ -30,7 +30,6 @@
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "puppeteer": "^5.3.1",
-    "stopwords-en": "^0.3.0",
     "typesense": "^0.8.0",
     "typesense-instantsearch-adapter": "^0.3.0",
     "vendor": "^1.7.0"

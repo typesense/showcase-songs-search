@@ -5825,11 +5825,6 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stopwords-en@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/stopwords-en/-/stopwords-en-0.3.0.tgz#ef1ffbd32e03cf2f9cbf226adcb80e27ec3fe0ff"
-  integrity sha1-7x/70y4Dzy+cvyJq3LgOJ+w/4P8=
-
 stream-browserify@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"

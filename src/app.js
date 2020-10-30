@@ -19,7 +19,7 @@ import {
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { SearchClient as TypesenseSearchClient } from 'typesense'; // To get the total number of docs
 import images from '../images/*.*';
-import STOP_WORDS from 'stopwords-en';
+import STOP_WORDS from './utils/stop_words.json';
 
 let TYPESENSE_SERVER_CONFIG = {
   apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
@@ -111,14 +111,15 @@ function queryWithoutStopWords(query) {
     .split(' ');
   return words
     .map(word => {
-      if (STOP_WORDS.includes(word)) {
+      if (STOP_WORDS.includes(word) || word.length <= 2) {
         return null;
       } else {
         return word;
       }
     })
     .filter(w => w)
-    .join(' ');
+    .join(' ')
+    .trim();
 }
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
