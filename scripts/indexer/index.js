@@ -140,7 +140,7 @@ module.exports = (async () => {
 
     if (currentLine % BATCH_SIZE === 0) {
       await addSongsToTypesense(songs, typesense, collectionName);
-      console.log('✅');
+      console.log(` Lines upto #${currentLine} ✅`);
       songs = [];
     }
 
