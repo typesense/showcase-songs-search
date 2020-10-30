@@ -17,7 +17,39 @@ import {
   sortBy,
 } from 'instantsearch.js/es/widgets';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
+import { SearchClient as TypesenseSearchClient } from 'typesense'; // To get the total number of docs
 import images from '../images/*.*';
+
+const TYPESENSE_SERVER_CONFIG = {
+  apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
+  nodes: [
+    {
+      host: process.env.TYPESENSE_HOST,
+      port: process.env.TYPESENSE_PORT,
+      protocol: process.env.TYPESENSE_PROTOCOL,
+    },
+  ],
+};
+
+const INDEX_NAME = process.env.TYPESENSE_COLLECTION_NAME;
+
+async function getIndexSize() {
+  let typesenseSearchClient = new TypesenseSearchClient(
+    TYPESENSE_SERVER_CONFIG
+  );
+  let results = await typesenseSearchClient
+    .collections(INDEX_NAME)
+    .documents()
+    .search({ q: '*' });
+
+  return results['found'];
+}
+
+let indexSize;
+
+(async () => {
+  indexSize = await getIndexSize();
+})();
 
 function iconForUrlObject(urlObject) {
   if (
@@ -54,16 +86,7 @@ function iconForUrlObject(urlObject) {
 }
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-  server: {
-    apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
-    nodes: [
-      {
-        host: process.env.TYPESENSE_HOST,
-        port: process.env.TYPESENSE_PORT,
-        protocol: process.env.TYPESENSE_PROTOCOL,
-      },
-    ],
-  },
+  server: TYPESENSE_SERVER_CONFIG,
   // The following parameters are directly passed to Typesense's search API endpoint.
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
@@ -72,10 +95,9 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
-const indexName = process.env.TYPESENSE_COLLECTION_NAME;
 const search = instantsearch({
   searchClient,
-  indexName: indexName,
+  indexName: INDEX_NAME,
   routing: true,
   searchFunction(helper) {
     if (helper.state.query === '') {
@@ -113,12 +135,17 @@ search.addWidgets([
   stats({
     container: '#stats',
     templates: {
-      text: `
-      {{#hasNoResults}}No results{{/hasNoResults}}
-      {{#hasOneResult}}1 result{{/hasOneResult}}
-      {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}} results{{/hasManyResults}}
-      found. Searched 32 Million songs in {{processingTimeMS}}ms.
-    `,
+      text: ({ nbHits, hasNoResults, hasOneResult, processingTimeMS }) => {
+        let statsText = '';
+        if (hasNoResults) {
+          statsText = 'No results';
+        } else if (hasOneResult) {
+          statsText = '1 result';
+        } else {
+          statsText = `${nbHits.toLocaleString()} results`;
+        }
+        return `${statsText} found. Searched ${indexSize.toLocaleString()} songs in ${processingTimeMS}ms.`;
+      },
     },
   }),
   infiniteHits({
@@ -266,8 +293,8 @@ search.addWidgets([
   sortBy({
     container: '#sort-by',
     items: [
-      { label: 'Recent first', value: `${indexName}` },
-      { label: 'Oldest first', value: `${indexName}/sort/release_date:asc` },
+      { label: 'Recent first', value: `${INDEX_NAME}` },
+      { label: 'Oldest first', value: `${INDEX_NAME}/sort/release_date:asc` },
     ],
     cssClasses: {
       select: 'custom-select custom-select-sm',
@@ -275,14 +302,16 @@ search.addWidgets([
   }),
 ]);
 
-search.on('render', function() {
+function handleSearchTermClick(event) {
   const $searchBox = $('#searchbox input[type=search]');
+  search.helper.clearRefinements();
+  $searchBox.val(event.currentTarget.textContent);
+  search.helper.setQuery($searchBox.val()).search();
+}
 
+search.on('render', function() {
   // Make artist names clickable
-  $('#hits .clickable-search-term').on('click', event => {
-    $searchBox.val(event.currentTarget.textContent);
-    search.helper.setQuery($searchBox.val()).search();
-  });
+  $('#hits .clickable-search-term').on('click', handleSearchTermClick);
 });
 
 search.start();
@@ -296,10 +325,7 @@ $(function() {
   // }
 
   // Handle example search terms
-  $('.clickable-search-term').on('click', event => {
-    $searchBox.val(event.currentTarget.textContent);
-    search.helper.setQuery($searchBox.val()).search();
-  });
+  $('.clickable-search-term').on('click', handleSearchTermClick);
 
   // Clear refinements, when searching
   $searchBox.on('keydown', event => {

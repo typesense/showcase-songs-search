@@ -6181,9 +6181,17 @@ typesense-instantsearch-adapter@^0.3.0:
     he "^1.2.0"
     typesense "^0.7.0"
 
-typesense@^0.7.0, typesense@typesense/typesense-js#upsert-and-update:
+typesense@^0.7.0:
   version "0.7.1"
   resolved "https://codeload.github.com/typesense/typesense-js/tar.gz/92d350e651f0aa2cf447463466f8c6f61179a521"
+  dependencies:
+    axios "^0.20.0"
+    loglevel "^1.7.0"
+
+typesense@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/typesense/-/typesense-0.8.0.tgz#343adba86a870921d8c7ff080c1d8ed4f34424e8"
+  integrity sha512-i+8r3+ai/4w9fBuBlM9lZgXC6XlZtoecwf+HDMTXhLlPbXuUH/bj9uhq6cdyuvJmgHo+6diggYjhX96G8F2+Ag==
   dependencies:
     axios "^0.20.0"
     loglevel "^1.7.0"
