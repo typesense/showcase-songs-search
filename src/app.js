@@ -13,7 +13,7 @@ import {
   stats,
   analytics,
   refinementList,
-  numericMenu,
+  menu,
   sortBy,
 } from 'instantsearch.js/es/widgets';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
@@ -144,7 +144,9 @@ search.addWidgets([
         } else {
           statsText = `${nbHits.toLocaleString()} results`;
         }
-        return `${statsText} found. Searched ${indexSize.toLocaleString()} songs in ${processingTimeMS}ms.`;
+        return `${statsText} found ${
+          indexSize ? ` - Searched ${indexSize.toLocaleString()} songs` : ''
+        } in ${processingTimeMS}ms.`;
       },
     },
   }),
@@ -268,23 +270,15 @@ search.addWidgets([
       checkbox: 'mr-2',
     },
   }),
-  numericMenu({
+  menu({
     container: '#release-date-selector',
-    attribute: 'release_date',
-    items: [
-      { label: 'All' },
-      { label: '1950s', start: -631152000, end: -315619201 },
-      { label: '1960s', start: -315619200, end: -1 },
-      { label: '1970s', start: 0, end: 315532799 },
-      { label: '1980s', start: 315532800, end: 631151999 },
-      { label: '1990s', start: 631152000, end: 946684799 },
-      { label: '2000s', start: 946684800, end: 1262303999 },
-      { label: '2010s', start: 1262304000, end: 1577836799 },
-      { label: '2020s', start: 1577836800, end: 1893455999 },
-    ],
+    attribute: 'release_decade',
+    sortBy: ['name:asc'],
     cssClasses: {
       list: 'list-unstyled',
-      radio: 'mr-1',
+      item: 'pl-2 mb-2 text-normal',
+      count: 'badge badge-light bg-light-2 ml-2',
+      selectedItem: 'bg-secondary p-2 pl-3',
     },
   }),
   configure({

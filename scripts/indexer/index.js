@@ -65,7 +65,8 @@ module.exports = (async () => {
       { name: 'primary_artist_name', type: 'string', facet: true },
       { name: 'genres', type: 'string[]', facet: true },
       { name: 'country', type: 'string', facet: true },
-      { name: 'release_date', type: 'int64', facet: true },
+      { name: 'release_date', type: 'int64' },
+      { name: 'release_decade', type: 'string', facet: true },
       { name: 'release_group_types', type: 'string[]', facet: true },
       // { name: 'urls'},
     ],
@@ -98,6 +99,12 @@ module.exports = (async () => {
           .flat()
           .filter(track => track) // To remove nulls
           .map(track => {
+            const releaseDate =
+              Math.round(
+                Date.parse(
+                  parsedRecord['release-group']['first-release-date']
+                ) / 1000
+              ) || 0;
             const song = {
               track_id: track['id'],
               title: track['title'],
@@ -113,12 +120,10 @@ module.exports = (async () => {
                   firstChar.toUpperCase() + rest.join('').toLowerCase()
               ),
               country: parsedRecord['country'] || 'Unknown',
-              release_date:
-                Math.round(
-                  Date.parse(
-                    parsedRecord['release-group']['first-release-date']
-                  ) / 1000
-                ) || 0,
+              release_date: releaseDate,
+              release_decade: `${Math.round(
+                new Date(releaseDate * 1000).getUTCFullYear() / 10
+              ) * 10}s`,
               release_group_types: [
                 parsedRecord['release-group']['primary-type'] || 'Unknown',
                 parsedRecord['release-group']['secondary-types'] || null,
@@ -140,7 +145,7 @@ module.exports = (async () => {
 
     if (currentLine % BATCH_SIZE === 0) {
       await addSongsToTypesense(songs, typesense, collectionName);
-      console.log(` Lines upto #${currentLine} ✅`);
+      console.log(` Lines upto ${currentLine} ✅`);
       songs = [];
     }
 
