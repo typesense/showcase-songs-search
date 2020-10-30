@@ -46,7 +46,7 @@
         <div class="row">
           <div class="col-md">
             <h1 class="text-md-center font-serif">
-              Instant Search 32 Million Songs
+              Instant Search <br class="d-md-none">32 Million Songs
             </h1>
             <h4 class="text-md-center">
               <span>from</span>
@@ -76,10 +76,10 @@
             Try:
             <span id="example-search-terms">
               <a role="button" class="clickable-search-term">On a jetplane</a>,
-              <a role="button" class="clickable-search-term">Maroon 5</a>
+              <a role="button" class="clickable-search-term">Les Misérables</a>,
               <a role="button" class="clickable-search-term">Lady Gaga</a>,
-              <a role="button" class="clickable-search-term">Soundtrack</a>
-              <a role="button" class="clickable-search-term">Beethoven</a>
+              <a role="button" class="clickable-search-term">Soundtrack</a>,
+              <a role="button" class="clickable-search-term">Beethoven</a>,
               <a role="button" class="clickable-search-term">All time hits</a>
             </span>
           </div>
@@ -156,9 +156,6 @@
     <span class="navbar-text">
       <a href="#" aria-roledescription="button" data-toggle="modal" data-target="#aboutModal">
         <span>about</span>
-      </a>|
-      <a href="#" aria-roledescription="button" data-toggle="modal" data-target="#datasetModal">
-        <span>dataset</span>
       </a>
     </span>
   </div>
@@ -169,7 +166,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="aboutLabel">
+        <h5 class="modal-title font-weight-normal" id="aboutLabel">
           About
         </h5>
         <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
@@ -177,27 +174,15 @@
         </button>
       </div>
       <div class="modal-body">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="datasetModal" class="modal fade" tabindex="-1" aria-labelledby="datasetLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="datasetLabel">
-          Dataset
-        </h5>
-        <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        MusicBrainz
+        <p>
+          This search experience is powered by <a href="https://typesense.org" target="_blank">Typesense</a> which is
+          a blazing-fast, <a href="https://github.com/typesense/typesense" target="_blank">open source</a> typo-tolerant
+          search-engine.
+        </p>
+        <p>
+          The songs dataset is from <a href="https://musicbrainz.org/" target="_blank">MusicBrainz</a> which is an open
+          music encyclopedia that collects music metadata and makes it available to the public.
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

@@ -130,7 +130,7 @@ search.addWidgets([
     },
     templates: {
       item: `
-            <h6 class="text-primary font-weight-light mb-0">
+            <h6 class="text-primary font-weight-light font-letter-spacing-loose mb-0">
               {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
             </h6>
             <div>
