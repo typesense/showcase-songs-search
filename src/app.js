@@ -19,6 +19,7 @@ import {
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { SearchClient as TypesenseSearchClient } from 'typesense'; // To get the total number of docs
 import images from '../images/*.*';
+import STOP_WORDS from 'stopwords-en';
 
 let TYPESENSE_SERVER_CONFIG = {
   apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
@@ -103,6 +104,20 @@ function iconForUrlObject(urlObject) {
   }
 }
 
+function queryWithoutStopWords(query) {
+  const words = query.toLowerCase().split(' ');
+  return words
+    .map(word => {
+      if (STOP_WORDS.includes(word)) {
+        return null;
+      } else {
+        return word;
+      }
+    })
+    .filter(w => w)
+    .join(' ');
+}
+
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: TYPESENSE_SERVER_CONFIG,
   // The following parameters are directly passed to Typesense's search API endpoint.
@@ -113,6 +128,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
+
 const search = instantsearch({
   searchClient,
   indexName: INDEX_NAME,
@@ -136,6 +152,12 @@ search.addWidgets([
     autofocus: true,
     cssClasses: {
       input: 'form-control',
+    },
+    queryHook(query, search) {
+      const modifiedQuery = queryWithoutStopWords(query);
+      if (modifiedQuery.trim() !== '') {
+        search(modifiedQuery);
+      }
     },
   }),
 
