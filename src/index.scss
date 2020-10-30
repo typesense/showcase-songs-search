@@ -14,7 +14,8 @@
 
 a.clickable-search-term {
   color: unset;
-  text-decoration: underline darken($secondary, 40%);
+  text-decoration-line: underline;
+  text-decoration-color: darken($secondary, 40%);
   cursor: pointer;
 }
 

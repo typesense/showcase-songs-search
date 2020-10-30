@@ -27,7 +27,11 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116415641-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
 
     gtag('config', 'UA-116415641-3');
@@ -41,7 +45,7 @@
       <header>
         <div class="row">
           <div class="col-md">
-            <h1 class="text-md-center font-letter-spacing-loose font-serif">
+            <h1 class="text-md-center font-serif">
               Instant Search 32 Million Songs
             </h1>
             <h4 class="text-md-center">
@@ -87,9 +91,11 @@
   <div class="row mt-3">
     <div class="col-md-3">
     </div>
-    <div class="col-md d-flex align-items-center">
-      <div id="sort-by"></div>
-      <div id="stats" class="ml-2 small"></div>
+    <div class="col-md">
+      <div class="row">
+        <div id="sort-by" class="col-5 col-md-2 mt-2 mt-md-0"></div>
+        <div id="stats" class="col-md ml-md-2 small order-first order-md-last d-flex align-items-center px-md-0"></div>
+      </div>
     </div>
   </div>
 
@@ -98,7 +104,7 @@
       <nav class="navbar navbar-expand-md navbar-light p-0 pb-3">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#filters-section"
                 aria-controls="filters-section" aria-expanded="false" aria-label="Toggle filters">
-          <span class="navbar-toggler-icon"></span> Refine
+          <span class="navbar-toggler-icon"></span><span class="ml-2" style="font-size: 15px;">Refine</span>
         </button>
 
         <div class="collapse navbar-collapse d-md-block mt-3 mt-md-0" id="filters-section">

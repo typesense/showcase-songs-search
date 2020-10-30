@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 $primary: #A30015;
 $secondary: #F8EECE;
@@ -56,7 +56,7 @@ input {
 }
 
 .font-serif {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Lora', serif;
 }
 
 .font-letter-spacing-loose {
@@ -69,4 +69,8 @@ input {
 
 .bg-light-2 {
   background-color: $gray-400;
+}
+
+.navbar-toggler-icon {
+  background-size: 75% 75%;
 }
