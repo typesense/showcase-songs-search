@@ -20,7 +20,7 @@ import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { SearchClient as TypesenseSearchClient } from 'typesense'; // To get the total number of docs
 import images from '../images/*.*';
 
-const TYPESENSE_SERVER_CONFIG = {
+let TYPESENSE_SERVER_CONFIG = {
   apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
   nodes: [
     {
@@ -30,6 +30,24 @@ const TYPESENSE_SERVER_CONFIG = {
     },
   ],
 };
+
+[2, 3].forEach(i => {
+  if (process.env[`TYPESENSE_HOST_${i}`]) {
+    TYPESENSE_SERVER_CONFIG.nodes.push({
+      host: process.env[`TYPESENSE_HOST_${i}`],
+      port: process.env.TYPESENSE_PORT,
+      protocol: process.env.TYPESENSE_PROTOCOL,
+    });
+  }
+});
+
+if (process.env[`TYPESENSE_HOST_NEAREST`]) {
+  TYPESENSE_SERVER_CONFIG['nearestNode'] = {
+    host: process.env[`TYPESENSE_HOST_NEAREST`],
+    port: process.env.TYPESENSE_PORT,
+    protocol: process.env.TYPESENSE_PROTOCOL,
+  };
+}
 
 const INDEX_NAME = process.env.TYPESENSE_COLLECTION_NAME;
 
