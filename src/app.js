@@ -105,13 +105,10 @@ function iconForUrlObject(urlObject) {
 }
 
 function queryWithoutStopWords(query) {
-  const words = query
-    .toLowerCase()
-    .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
-    .split(' ');
+  const words = query.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '').split(' ');
   return words
     .map(word => {
-      if (STOP_WORDS.includes(word) || word.length <= 2) {
+      if (STOP_WORDS.includes(word.toLowerCase()) || word.length <= 2) {
         return null;
       } else {
         return word;
