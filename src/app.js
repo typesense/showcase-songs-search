@@ -195,7 +195,7 @@ search.addWidgets([
     container: '#hits',
     cssClasses: {
       list: 'list-unstyled grid-container',
-      item: 'd-flex flex-column search-result-card bg-light-2 p-4 pt-5 p-md-3',
+      item: 'd-flex flex-column search-result-card bg-light-2 p-3',
       loadMore: 'btn btn-primary mx-auto d-block mt-4',
     },
     templates: {
@@ -210,7 +210,7 @@ search.addWidgets([
             <div class="mt-3">
               from {{#helpers.highlight}}{ "attribute": "album_name" }{{/helpers.highlight}}
             </div>
-            <div class="text-muted small mb-3">
+            <div class="text-muted small mb-2">
               {{ release_date_display }}
             </div>
 
@@ -366,4 +366,15 @@ $(function() {
   $searchBox.on('keydown', event => {
     search.helper.clearRefinements();
   });
+
+  if (!matchMedia('(min-width: 768px)').matches) {
+    $searchBox.on('focus, keydown', () => {
+      $('html, body').animate(
+        {
+          scrollTop: $('#searchbox-container').offset().top,
+        },
+        500
+      );
+    });
+  }
 });
