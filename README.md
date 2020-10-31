@@ -2,7 +2,7 @@
 
 This is a demo that showcases some of Typesense's features using a 30 Million database of songs from MusicBrainz.
 
-View it live here: [http://songs-search.typesense.org/](http://songs-search.typesense.org/)
+View it live here: [songs-search.typesense.org](https://songs-search.typesense.org/)
 
 ## Development
 
