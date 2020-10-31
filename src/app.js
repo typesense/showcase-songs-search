@@ -108,7 +108,7 @@ function queryWithoutStopWords(query) {
   const words = query.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '').split(' ');
   return words
     .map(word => {
-      if (STOP_WORDS.includes(word.toLowerCase()) || word.length <= 2) {
+      if (STOP_WORDS.includes(word.toLowerCase())) {
         return null;
       } else {
         return word;
