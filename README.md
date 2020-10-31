@@ -1,8 +1,8 @@
-# 🎶 Typesense Song Search [Demo]
+# 🎶 MusicBrainz Song Search, powered by Typesense
 
 This is a demo that showcases some of Typesense's features using a 30 Million database of songs from MusicBrainz.
 
-**This is still a work in progress, and will be published with more details shortly.**
+View it live here: [http://songs-search.typesense.org/](http://songs-search.typesense.org/)
 
 ## Development
 
@@ -16,3 +16,9 @@ yarn start
 ```
 
 Open http://localhost:3000 to see the app.
+
+## Deployment
+
+The app is hosted on [DigitalOcean App Platform](https://www.digitalocean.com/products/app-platform/).
+
+Pushing to master will deploy the app to production.
