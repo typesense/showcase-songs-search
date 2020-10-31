@@ -149,7 +149,7 @@ search.addWidgets([
     container: '#searchbox',
     showSubmit: false,
     showReset: false,
-    placeholder: 'Search for a song, album or artist',
+    placeholder: 'Type in a song, artist or album name',
     autofocus: true,
     cssClasses: {
       input: 'form-control',
