@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true,
+        "corejs": 3
+      }
+    ],
+    "@babel/plugin-transform-spread"
+  ]
+}
