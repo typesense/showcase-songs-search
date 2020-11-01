@@ -21,7 +21,7 @@ const HEADERS = {
 const CHARACTER_SPACE = 'abcdefghijklmnopqrstuvwxyz';
 const SEARCH_PHRASE_LENGTH = 3;
 const SEARCH_PHRASES = new Permutation(CHARACTER_SPACE, SEARCH_PHRASE_LENGTH);
-const NUM_VUS = 30;
+const NUM_VUS = 15;
 
 export let options = {
   summaryTrendStats: [
