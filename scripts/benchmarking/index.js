@@ -37,7 +37,7 @@ export let options = {
     constant_vus: {
       executor: 'constant-vus',
       vus: 10,
-      duration: '45m',
+      duration: '12h',
     },
   },
 };
