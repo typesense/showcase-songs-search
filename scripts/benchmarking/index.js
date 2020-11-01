@@ -18,7 +18,10 @@ const HEADERS = {
   'content-type': 'application/json',
   'accept-encoding': 'gzip, deflate, br',
 };
-const SEARCH_PHRASES = new Permutation('abcdefghijklmnopqrstuvwxyz', 3);
+const CHARACTER_SPACE = 'abcdefghijklmnopqrstuvwxyz';
+const SEARCH_PHRASE_LENGTH = 3;
+const SEARCH_PHRASES = new Permutation(CHARACTER_SPACE, SEARCH_PHRASE_LENGTH);
+const NUM_VUS = 10;
 
 export let options = {
   summaryTrendStats: [
@@ -36,7 +39,7 @@ export let options = {
   scenarios: {
     constant_vus: {
       executor: 'constant-vus',
-      vus: 10,
+      vus: NUM_VUS,
       duration: '12h',
     },
   },
@@ -47,8 +50,12 @@ let searchProcessingTimes = new Trend('search_processing_time_ms');
 
 export default function() {
   // Pick search phrase
-  let searchPhrase = SEARCH_PHRASES.nth(__ITER % SEARCH_PHRASES.length).join(
-    ''
+  const vuOffset = Math.ceil(SEARCH_PHRASES.length / NUM_VUS) * (__VU - 1);
+  const searchPhraseIndex = (vuOffset + __ITER) % SEARCH_PHRASES.length;
+  let searchPhrase = SEARCH_PHRASES.nth(searchPhraseIndex).join('');
+
+  console.log(
+    `VU:${__VU} SEARCH_PHRASES[${searchPhraseIndex}]: ${searchPhrase}`
   );
 
   // Break the search phrase out into characters to simulate users typing
@@ -58,7 +65,6 @@ export default function() {
     .filter(query => !STOP_WORDS.includes(query))
     .map(query => {
       group(`query: ${query}`, () => {
-        console.log(query);
         let host = TYPESENSE_HOSTS[__ITER % TYPESENSE_HOSTS.length];
         let url = `https://${host}/collections/s/documents/search?query_by=primary_artist_name,title,album_name&highlight_full_fields=primary_artist_name,title,album_name&facet_by=genres,primary_artist_name,release_group_types,country,release_decade&filter_by=&max_facet_values=20&page=1&per_page=15&q=${encodeURIComponent(
           query
