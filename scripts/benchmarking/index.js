@@ -58,6 +58,7 @@ export default function() {
     .filter(query => !STOP_WORDS.includes(query))
     .map(query => {
       group(`query: ${query}`, () => {
+        console.log(query);
         let host = TYPESENSE_HOSTS[__ITER % TYPESENSE_HOSTS.length];
         let url = `https://${host}/collections/s/documents/search?query_by=primary_artist_name,title,album_name&highlight_full_fields=primary_artist_name,title,album_name&facet_by=genres,primary_artist_name,release_group_types,country,release_decade&filter_by=&max_facet_values=20&page=1&per_page=15&q=${encodeURIComponent(
           query
