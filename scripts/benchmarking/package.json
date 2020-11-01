@@ -14,7 +14,7 @@
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
-    "benchmark": "webpack && k6 run --out influxdb=http://localhost:8086/k6_search_benchmarks build/app.bundle.js",
+    "benchmark": "webpack && k6 run --out influxdb=http://localhost:8086/k6 build/app.bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

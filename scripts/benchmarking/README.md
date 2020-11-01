@@ -10,7 +10,7 @@ Create DB to store metrics:
 
 ```
 influxdb
-> CREATE DATABASE k6_search_benchmarks
+> CREATE DATABASE k6
 ```
 
 Import [this dashboard](https://grafana.com/grafana/dashboards/2587) into Grafana, add a new panel to track the metric `search_processing_time_ms`.
@@ -26,5 +26,6 @@ View queries that take a long time to process:
 
 ```
 influxdb
+> use k6
 > select MEAN(value) from search_processing_time_ms WHERE value > 50 GROUP BY "query"
 ```
