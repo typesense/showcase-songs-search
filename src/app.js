@@ -30,6 +30,7 @@ let TYPESENSE_SERVER_CONFIG = {
       protocol: process.env.TYPESENSE_PROTOCOL,
     },
   ],
+  numRetries: 8,
 };
 
 [2, 3].forEach(i => {
