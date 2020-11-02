@@ -49,13 +49,10 @@
               Instant Search 32 Million Songs
             </h1>
             <h4 class="text-md-center mt-3">
-              <span>from</span>
-              <a href="https://musicbrainz.org/" target="_blank">
-                <img src="images/MusicBrainz_logo.svg" height="22" alt="MusicBrainz" class="mx-3" style="vertical-align: top;"/></a>
               <div class="d-md-inline d-block mt-3">
                 <span>powered by</span>
                 <a href="https://typesense.org" target="_blank">
-                  <img src="images/typesense.svg" height="32" alt="Typesense" class="mx-3" style="vertical-align: top; position: relative; top: -4px;"/>
+                  <img src="images/typesense.svg" height="32" alt="Typesense" class="mx-2" style="vertical-align: top; position: relative; top: -4px;"/>
                 </a>
               </div>
             </h4>
@@ -181,21 +178,22 @@
         <p>
           This search experience is powered by <a href="https://typesense.org" target="_blank">Typesense</a> which is
           a blazing-fast, <a href="https://github.com/typesense/typesense" target="_blank">open source</a> typo-tolerant
-          search-engine.
+          search-engine. It is an open source alternative to Algolia and an easier-to-use alternative to ElasticSearch.
         </p>
         <p>
           The songs dataset is from <a href="https://musicbrainz.org/" target="_blank">MusicBrainz</a> which is an open
-          music encyclopedia that collects music metadata and makes it available to the public.
+          music encyclopedia that collects music metadata and makes it available to the public. Please contribute to it if you're able to!
         </p>
         <p>
           The app was built using the <a href="https://github.com/typesense/typesense-instantsearch-adapter" target="_blank">
           Typesense Adapter for InstantSearch.js</a> and is hosted on <a href="https://www.digitalocean.com/products/app-platform/" target="_blank">DigitalOcean's App Platform</a>.
         </p>
         <p>
-          The search backend is powered by a geo-distributed 3-node Typesense cluster running on <a href="https://cloud.typesense.org" target="_blank">Typesense Cloud</a>.
+          The search backend is powered by a geo-distributed 3-node Typesense cluster running on <a href="https://cloud.typesense.org" target="_blank">Typesense Cloud</a>,
+          with nodes in Oregon, Frankfurt and Mumbai.
         </p>
         <p>
-          Here's the source-code: <a href="https://github.com/typesense/showcase-songs-search" target="_blank">https://github.com/typesense/showcase-songs-search</a>
+          Here is the source-code that shows you how to build your own search experience like this one: <a href="https://github.com/typesense/showcase-songs-search" target="_blank">https://github.com/typesense/showcase-songs-search</a>
         </p>
 
       </div>
