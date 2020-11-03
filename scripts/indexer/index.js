@@ -1,8 +1,11 @@
 require('dotenv').config();
 
+const _ = require('lodash');
+
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
+const CHUNK_SIZE = process.env.CHUNK_SIZE || 3;
 const MAX_LINES = process.env.MAX_LINES || Infinity;
-const DATA_FILE = process.env.DATA_FILE || './scripts/data/1K-songs.json';
+const DATA_FILE = process.env.DATA_FILE || './scripts/data/lil-records.json';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -26,20 +29,25 @@ function extractUrls(parsedRecord) {
 
 async function addSongsToTypesense(songs, typesense, collectionName) {
   try {
-    const returnData = await typesense
-      .collections(collectionName)
-      .documents()
-      .import(songs);
-    // console.log(returnData);
+    const returnDataChunks = await Promise.all(
+      _.chunk(songs, CHUNK_SIZE).map(songsChunk =>
+        typesense
+          .collections(collectionName)
+          .documents()
+          .import(songsChunk)
+      )
+    );
 
-    const failedItems = returnData.filter(item => item.success === false);
+    const failedItems = returnDataChunks
+      .map(returnData => returnData.filter(item => item.success === false))
+      .flat();
     if (failedItems.length > 0) {
       throw new Error(
         `Error indexing items ${JSON.stringify(failedItems, null, 2)}`
       );
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 
