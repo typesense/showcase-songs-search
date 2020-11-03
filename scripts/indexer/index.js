@@ -1,7 +1,58 @@
 require('dotenv').config();
 
 const _ = require('lodash');
-const stringify = require('fast-json-stable-stringify');
+const fastJson = require('fast-json-stringify');
+const stringify = fastJson({
+  title: 'Song Schema',
+  type: 'object',
+  properties: {
+    track_id: {
+      type: 'string',
+    },
+    title: {
+      type: 'string',
+    },
+    album_name: {
+      type: 'string',
+      nullable: true,
+    },
+    primary_artist_name: {
+      type: 'string',
+    },
+    genres: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+    country: {
+      type: 'string',
+    },
+    release_date: {
+      type: 'integer',
+    },
+    release_decade: {
+      type: 'string',
+    },
+    release_group_types: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+    urls: {
+      type: 'object',
+      properties: {
+        type: {
+          type: 'string',
+        },
+        url: {
+          type: 'string',
+        },
+      },
+    },
+  },
+});
 const flatstr = require('flatstr');
 
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
@@ -124,6 +175,8 @@ module.exports = (async () => {
                   parsedRecord['release-group']['first-release-date']
                 ) / 1000
               ) || 0;
+
+            // Be sure to update the schema passed to stringify when updating this structure
             const song = {
               track_id: track['id'],
               title: track['title'],
