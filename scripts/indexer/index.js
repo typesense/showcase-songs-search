@@ -30,7 +30,7 @@ function extractUrls(parsedRecord) {
 async function addSongsToTypesense(songs, typesense, collectionName) {
   try {
     const returnDataChunks = await Promise.all(
-      _.chunk(songs, CHUNK_SIZE).map(songsChunk =>
+      _.chunk(songs, Math.ceil(songs.length / CHUNK_SIZE)).map(songsChunk =>
         typesense
           .collections(collectionName)
           .documents()
