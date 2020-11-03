@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const _ = require('lodash');
+const stringify = require('fast-json-stable-stringify');
+const flatstr = require('flatstr');
 
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
 const CHUNK_SIZE = process.env.CHUNK_SIZE || 3;
@@ -30,16 +32,25 @@ function extractUrls(parsedRecord) {
 async function addSongsToTypesense(songs, typesense, collectionName) {
   try {
     const returnDataChunks = await Promise.all(
-      _.chunk(songs, Math.ceil(songs.length / CHUNK_SIZE)).map(songsChunk =>
-        typesense
+      _.chunk(songs, Math.ceil(songs.length / CHUNK_SIZE)).map(songsChunk => {
+        const jsonlString = flatstr(
+          songsChunk.map(song => stringify(song)).join('\n')
+        );
+
+        return typesense
           .collections(collectionName)
           .documents()
-          .import(songsChunk)
-      )
+          .import(jsonlString);
+      })
     );
 
     const failedItems = returnDataChunks
-      .map(returnData => returnData.filter(item => item.success === false))
+      .map(returnData =>
+        returnData
+          .split('\n')
+          .map(r => JSON.parse(r))
+          .filter(item => item.success === false)
+      )
       .flat();
     if (failedItems.length > 0) {
       throw new Error(
