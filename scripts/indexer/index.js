@@ -53,7 +53,6 @@ const stringify = fastJson({
     },
   },
 });
-const flatstr = require('flatstr');
 
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
 const CHUNK_SIZE = process.env.CHUNK_SIZE || 3;
@@ -84,9 +83,7 @@ async function addSongsToTypesense(songs, typesense, collectionName) {
   try {
     const returnDataChunks = await Promise.all(
       _.chunk(songs, Math.ceil(songs.length / CHUNK_SIZE)).map(songsChunk => {
-        const jsonlString = flatstr(
-          songsChunk.map(song => stringify(song)).join('\n')
-        );
+        const jsonlString = songsChunk.map(song => stringify(song)).join('\n');
 
         return typesense
           .collections(collectionName)

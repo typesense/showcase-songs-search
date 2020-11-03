@@ -2914,11 +2914,6 @@ flat-cache@^1.2.1:
     rimraf "~2.6.2"
     write "^0.2.1"
 
-flatstr@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/flatstr/-/flatstr-1.0.12.tgz#c2ba6a08173edbb6c9640e3055b95e287ceb5931"
-  integrity sha512-4zPxDyhCyiN2wIAtSLI6gc82/EjqZc1onI4Mz/l0pWrAlsSfYH/2ZIcU+e3oA2wDwbzIWNKwa23F8rh6+DRWkw==
-
 follow-redirects@^1.10.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
