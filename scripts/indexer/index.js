@@ -5,7 +5,7 @@ const _ = require('lodash');
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
 const CHUNK_SIZE = process.env.CHUNK_SIZE || 3;
 const MAX_LINES = process.env.MAX_LINES || Infinity;
-const DATA_FILE = process.env.DATA_FILE || './scripts/data/lil-records.json';
+const DATA_FILE = process.env.DATA_FILE || './scripts/data/1K-records.json';
 
 const fs = require('fs');
 const readline = require('readline');
