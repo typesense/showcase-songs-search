@@ -41,13 +41,16 @@ const stringify = fastJson({
       },
     },
     urls: {
-      type: 'object',
-      properties: {
-        type: {
-          type: 'string',
-        },
-        url: {
-          type: 'string',
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+          },
+          url: {
+            type: 'string',
+          },
         },
       },
     },
