@@ -15,6 +15,7 @@ import {
   refinementList,
   menu,
   sortBy,
+  currentRefinements,
 } from 'instantsearch.js/es/widgets';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { SearchClient as TypesenseSearchClient } from 'typesense'; // To get the total number of docs
@@ -353,6 +354,27 @@ search.addWidgets([
     ],
     cssClasses: {
       select: 'custom-select custom-select-sm',
+    },
+  }),
+  currentRefinements({
+    container: '#current-refinements',
+    cssClasses: {
+      list: 'list-unstyled',
+      label: 'd-none',
+      item: 'h5',
+      category: 'badge badge-light bg-light-2 px-3',
+      delete: 'btn btn-sm btn-link p-0 pl-2',
+    },
+    transformItems: items => {
+      const modifiedItems = items.map(item => {
+        console.log(item);
+        return {
+          ...item,
+          label: '',
+        };
+      });
+      console.log(modifiedItems);
+      return modifiedItems;
     },
   }),
 ]);
