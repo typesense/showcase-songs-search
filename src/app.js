@@ -267,7 +267,7 @@ search.addWidgets([
   refinementList({
     container: '#genres-refinement-list',
     attribute: 'genres',
-    searchable: true,
+    searchable: false,
     searchablePlaceholder: 'Search genres',
     showMore: true,
     cssClasses: {
@@ -284,7 +284,7 @@ search.addWidgets([
   refinementList({
     container: '#artists-refinement-list',
     attribute: 'primary_artist_name',
-    searchable: true,
+    searchable: false,
     searchablePlaceholder: 'Search artists',
     showMore: true,
     cssClasses: {
@@ -301,7 +301,7 @@ search.addWidgets([
   refinementList({
     container: '#release-type-refinement-list',
     attribute: 'release_group_types',
-    searchable: true,
+    searchable: false,
     searchablePlaceholder: 'Search release types',
     showMore: true,
     cssClasses: {
@@ -318,7 +318,7 @@ search.addWidgets([
   refinementList({
     container: '#countries-refinement-list',
     attribute: 'country',
-    searchable: true,
+    searchable: false,
     searchablePlaceholder: 'Search countries',
     showMore: true,
     cssClasses: {
