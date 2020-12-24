@@ -147,6 +147,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  queryBy is required.
   additionalSearchParameters: {
     queryBy: 'title,primary_artist_name,album_name',
+    queryByWeights: '2,2,1',
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
