@@ -146,7 +146,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
   additionalSearchParameters: {
-    queryBy: 'primary_artist_name,title,album_name',
+    queryBy: 'title,primary_artist_name,album_name',
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
