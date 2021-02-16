@@ -368,13 +368,11 @@ search.addWidgets([
     },
     transformItems: items => {
       const modifiedItems = items.map(item => {
-        console.log(item);
         return {
           ...item,
           label: '',
         };
       });
-      console.log(modifiedItems);
       return modifiedItems;
     },
   }),
