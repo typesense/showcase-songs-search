@@ -31,6 +31,8 @@ with nodes in Oregon, Frankfurt and Mumbai.
 To run this project locally, install the dependencies and run the local server:
 
 ```sh
+npm install -g parcel-bundler # Need to use NPM for this: https://github.com/parcel-bundler/parcel/issues/1036#issuecomment-559982275
+
 yarn
 yarn run typesenseServer
 ln -s .env.development .env
