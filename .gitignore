@@ -26,3 +26,5 @@ yarn-error.log*
 typesense-server-data
 /scripts/data/*.json
 !/scripts/data/1K-songs.json
+
+.parcel-cache/*
