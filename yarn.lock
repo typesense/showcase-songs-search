@@ -1327,13 +1327,6 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@^0.21.1:
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
-  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
-  dependencies:
-    follow-redirects "^1.10.0"
-
 axios@^0.26.0:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
@@ -3018,11 +3011,6 @@ flat-cache@^1.2.1:
     rimraf "~2.6.2"
     write "^0.2.1"
 
-follow-redirects@^1.10.0:
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.2.tgz#dd73c8effc12728ba5cf4259d760ea5fb83e3147"
-  integrity sha512-6mPTgLxYm3r6Bkkg0vNM0HTjfGrOEtsfbhagQvbxDEsEkpNhw582upBaoRZylzen6krEmxXJgt9Ju6HiI4O7BA==
-
 follow-redirects@^1.14.8:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.0.tgz#06441868281c86d0dda4ad8bdaead2d02dca89d4"
@@ -4067,11 +4055,6 @@ log-symbols@^2.2.0:
   integrity sha512-VeIAFslyIerEJLXHziedo2basKbMKtTw3vfn5IzG0XTjhAVEJyNHnL2p7vc+wBDSdQuUpNw3M2u6xb9QsAY5Eg==
   dependencies:
     chalk "^2.0.1"
-
-loglevel@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
-  integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
 
 loglevel@^1.8.0:
   version "1.8.0"
@@ -6344,25 +6327,25 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typesense-instantsearch-adapter@^2.4.1-4:
-  version "2.4.1-4"
-  resolved "https://registry.yarnpkg.com/typesense-instantsearch-adapter/-/typesense-instantsearch-adapter-2.4.1-4.tgz#9dfd5b686897e5775ccd70eddecf60c534bdb82f"
-  integrity sha512-I3Z+ygAEvrvcdlp/rsN4MsBuCXAtkRaqA4r1O7GG8UPq4yhlrTyxNB9eALwuFpI0GBkz7wi9IYjGwmSqIMM5oQ==
+typesense-instantsearch-adapter@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/typesense-instantsearch-adapter/-/typesense-instantsearch-adapter-2.4.1.tgz#00ebf4eea78469b214e7fb1c49a5dfbbb1beff87"
+  integrity sha512-WkqmywsKFQF96qvUyRkQx54ximV5jS/KJfEjxK178jWkoWyIkul7j7VOnlRNQU18n46SeV+PWt4AzboifsmbzQ==
   dependencies:
     typesense "^1.3.0-6"
-
-typesense@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/typesense/-/typesense-1.2.2.tgz#f70ea67177d9ab26d1fc4760ecaa9c3f08473a37"
-  integrity sha512-MOKAIGTXbL0RkbHOvpr8RHP7it7UhCc0x4KJ8+p5lwh6Q9bSht6pJqMn6bXybomYA7CHVzIm4+IWVz6dHdUBow==
-  dependencies:
-    axios "^0.21.1"
-    loglevel "^1.7.1"
 
 typesense@^1.3.0-6:
   version "1.3.0-6"
   resolved "https://registry.yarnpkg.com/typesense/-/typesense-1.3.0-6.tgz#da99707ba335282bb94ae7e9eb7d718484b63174"
   integrity sha512-easogB4AxDTwMP4EOmm9RGeKVO+jIPYmU340iULRaW+2QZFIBhmC/away3LYywvneyoXi0YkCORdGluxj6fxAw==
+  dependencies:
+    axios "^0.26.0"
+    loglevel "^1.8.0"
+
+typesense@^1.4.0-0:
+  version "1.4.0-0"
+  resolved "https://registry.yarnpkg.com/typesense/-/typesense-1.4.0-0.tgz#9c1725bb683126cce2e8cca044286eb17fed6e7a"
+  integrity sha512-5Y8v/L2yTiaXx/6d80InCfMf4UwrEo0B1jCDybKqoYTIsMqqOoFrdsRAeEZistT5ELemspR1WJh5ZNKx/bZ3Xg==
   dependencies:
     axios "^0.26.0"
     loglevel "^1.8.0"
