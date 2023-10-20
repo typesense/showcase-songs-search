@@ -1,120 +1,59 @@
-require('dotenv').config();
-
-const _ = require('lodash');
-const fastJson = require('fast-json-stringify');
-const stringify = fastJson({
-  title: 'Song Schema',
-  type: 'object',
-  properties: {
-    track_id: {
-      type: 'string',
-    },
-    title: {
-      type: 'string',
-    },
-    album_name: {
-      type: 'string',
-      nullable: true,
-    },
-    primary_artist_name: {
-      type: 'string',
-    },
-    genres: {
-      type: 'array',
-      items: {
-        type: 'string',
-      },
-    },
-    country: {
-      type: 'string',
-    },
-    release_date: {
-      type: 'integer',
-    },
-    release_decade: {
-      type: 'string',
-    },
-    release_group_types: {
-      type: 'array',
-      items: {
-        type: 'string',
-      },
-    },
-    urls: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          type: {
-            type: 'string',
-          },
-          url: {
-            type: 'string',
-          },
-        },
-      },
-    },
-  },
-});
+const { Client } = require('typesense');
+const fs = require('fs').promises;
+const readline = require('readline');
 
 const BATCH_SIZE = process.env.BATCH_SIZE || 100;
 const CHUNK_SIZE = process.env.CHUNK_SIZE || 3;
 const MAX_LINES = process.env.MAX_LINES || Infinity;
 const DATA_FILE = process.env.DATA_FILE || './scripts/data/1K-records.json';
 
-const fs = require('fs');
-const readline = require('readline');
-const Typesense = require('typesense');
-
-function extractUrls(parsedRecord) {
-  return parsedRecord['relations']
-    .filter(r =>
+async function extractUrls(parsedRecord) {
+  return parsedRecord.relations
+    .filter((r) =>
       [
         'amazon asin',
         'streaming',
         'free streaming',
         'download for free',
         'purchase for download',
-      ].includes(r['type'])
+      ].includes(r.type)
     )
-    .map(r => {
-      return { type: r['type'], url: r['url']['resource'] };
-    });
+    .map((r) => ({ type: r.type, url: r.url.resource }));
 }
 
 async function addSongsToTypesense(songs, typesense, collectionName) {
-  try {
-    const returnDataChunks = await Promise.all(
-      _.chunk(songs, Math.ceil(songs.length / CHUNK_SIZE)).map(songsChunk => {
-        const jsonlString = songsChunk.map(song => stringify(song)).join('\n');
-
-        return typesense
+  const returnDataChunks = await Promise.all(
+    songs
+      .reduce((chunks, song) => {
+        const jsonlString = chunks[chunks.length - 1].length >= CHUNK_SIZE
+          ? chunks.push([]) && chunks[chunks.length - 1]
+          : chunks[chunks.length - 1];
+        jsonlString.push(stringify(song));
+        return chunks;
+      }, [[]])
+      .map((songsChunk) =>
+        typesense
           .collections(collectionName)
           .documents()
-          .import(jsonlString);
-      })
-    );
-
-    const failedItems = returnDataChunks
-      .map(returnData =>
-        returnData
-          .split('\n')
-          .map(r => JSON.parse(r))
-          .filter(item => item.success === false)
+          .import(songsChunk.join('\n'))
       )
-      .flat();
-    if (failedItems.length > 0) {
-      throw new Error(
-        `Error indexing items ${JSON.stringify(failedItems, null, 2)}`
-      );
-    }
-  } catch (error) {
-    console.log(error);
+  );
+
+  const failedItems = returnDataChunks
+    .map((returnData) =>
+      returnData
+        .split('\n')
+        .map((r) => JSON.parse(r))
+        .filter((item) => item.success === false)
+    )
+    .flat();
+  if (failedItems.length > 0) {
+    throw new Error(`Error indexing items ${JSON.stringify(failedItems, null, 2)}`);
   }
 }
 
-module.exports = (async () => {
-  const typesense = new Typesense.Client({
+(async () => {
+  const typesense = new Client({
     nodes: [
       {
         host: process.env.TYPESENSE_HOST,
@@ -151,7 +90,7 @@ module.exports = (async () => {
 
   console.log('Adding records: ');
 
-  const fileStream = fs.createReadStream(DATA_FILE);
+  const fileStream = await fs.open(DATA_FILE, 'r');
   const rl = readline.createInterface({
     input: fileStream,
     crlfDelay: Infinity,
@@ -164,34 +103,30 @@ module.exports = (async () => {
     const parsedRecord = JSON.parse(line);
     try {
       songs.push(
-        ...parsedRecord['media']
-          .map(media => media['tracks'])
+        ...parsedRecord.media
+          .map((media) => media.tracks)
           .flat()
-          .filter(track => track) // To remove nulls
-          .map(track => {
+          .filter((track) => track) // To remove nulls
+          .map((track) => {
             const releaseDate =
               Math.round(
-                Date.parse(
-                  parsedRecord['release-group']['first-release-date']
-                ) / 1000
+                Date.parse(parsedRecord['release-group']['first-release-date']) / 1000
               ) || 0;
 
-            // Be sure to update the schema passed to stringify when updating this structure
             const song = {
-              track_id: track['id'],
-              title: track['title'],
-              album_name: parsedRecord['title'],
-              primary_artist_name:
-                parsedRecord['artist-credit'][0]['artist']['name'],
+              track_id: track.id,
+              title: track.title,
+              album_name: parsedRecord.title,
+              primary_artist_name: parsedRecord['artist-credit'][0].artist.name,
               genres: [
-                ...track['recording']['genres'].map(g => g.name),
-                ...parsedRecord['genres'].map(g => g.name),
-                ...parsedRecord['release-group']['genres'].map(g => g.name),
+                ...track.recording.genres.map((g) => g.name),
+                ...parsedRecord.genres.map((g) => g.name),
+                ...parsedRecord['release-group'].genres.map((g) => g.name),
               ].map(
                 ([firstChar, ...rest]) =>
                   firstChar.toUpperCase() + rest.join('').toLowerCase()
               ),
-              country: parsedRecord['country'] || 'Unknown',
+              country: parsedRecord.country || 'Unknown',
               release_date: releaseDate,
               release_decade: `${Math.round(
                 new Date(releaseDate * 1000).getUTCFullYear() / 10
@@ -201,11 +136,10 @@ module.exports = (async () => {
                 parsedRecord['release-group']['secondary-types'] || null,
               ]
                 .flat()
-                .filter(e => e),
+                .filter((e) => e),
               urls: extractUrls(parsedRecord),
             };
             process.stdout.write('.');
-
             return song;
           })
       );
@@ -217,7 +151,7 @@ module.exports = (async () => {
 
     if (currentLine % BATCH_SIZE === 0) {
       await addSongsToTypesense(songs, typesense, collectionName);
-      console.log(` Lines upto ${currentLine} ✅`);
+      console.log(` Lines up to ${currentLine} ✅`);
       songs = [];
     }
 
@@ -233,9 +167,7 @@ module.exports = (async () => {
 
   let oldCollectionName;
   try {
-    oldCollectionName = await typesense.aliases('s').retrieve()[
-      'collection_name'
-    ];
+    oldCollectionName = (await typesense.aliases('s').retrieve())['collection_name'];
   } catch (error) {
     // Do nothing
   }
@@ -252,3 +184,4 @@ module.exports = (async () => {
     console.error(error);
   }
 })();
+
