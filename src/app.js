@@ -161,9 +161,18 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
   additionalSearchParameters: {
-    query_by: "primary_artist_name,title,album_name",
-    query_by_weights: "2,2,1",
-    sort_by: "_text_match(buckets: 10):desc",
+    query_by: "primary_artist_name,title",
+    query_by_weights: "2,2",
+    sort_by: "_text_match(buckets: 10):desc,release_date:asc",
+    facet_sample_threshold: 1000,
+    facet_sample_percent: 20,
+  },
+  filterByOptions: {
+    release_decade: { exactMatch: false }, // <========== Add this to do non-exact word-level filtering
+    primary_artist_name: { exactMatch: false },
+    genres: { exactMatch: false },
+    release_group_types: { exactMatch: false },
+    country: { exactMatch: false },
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
