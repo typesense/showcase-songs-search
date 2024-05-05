@@ -1,5 +1,6 @@
 {
-  "singleQuote": true,
+  "semi": true,
+  "singleQuote": false,
   "proseWrap": "never",
   "trailingComma": "es5"
 }

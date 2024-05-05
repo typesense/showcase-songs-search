@@ -24,6 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 typesense-server-data
+typesense-data
 /scripts/data/*.json
 !/scripts/data/1K-songs.json
 
