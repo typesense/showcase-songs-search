@@ -233,7 +233,7 @@ module.exports = (async () => {
 
   let oldCollectionName;
   try {
-    oldCollectionName = await typesense.aliases('s').retrieve()[
+    oldCollectionName = (await typesense.aliases('s').retrieve())[
       'collection_name'
     ];
   } catch (error) {
