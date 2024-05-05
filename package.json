@@ -40,5 +40,8 @@
     "typesense": "^1.9.0-2",
     "typesense-instantsearch-adapter": "^2.9.0-3"
   },
-  "browserslist": "> 0.5%, last 2 versions, not dead"
+  "browserslist": ["> 0.5%, last 2 versions, not dead"],
+  "engines": {
+    "node": "20.x"
+  }
 }
