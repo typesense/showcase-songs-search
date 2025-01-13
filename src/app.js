@@ -2,7 +2,6 @@ import jQuery from "jquery";
 
 window.$ = jQuery; // workaround for https://github.com/parcel-bundler/parcel/issues/333
 
-import "popper.js";
 import "bootstrap";
 
 import instantsearch from "instantsearch.js/es";
