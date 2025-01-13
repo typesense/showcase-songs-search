@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 
-$primary: #A30015;
-$secondary: #F8EECE;
+$primary: #a30015;
+$secondary: #f8eece;
 $gray-100: #fcfbfb !default;
 $gray-200: #faf9f8 !default;
 $gray-300: #f8f7f5 !default;
@@ -11,7 +11,8 @@ $gray-600: #c4c2c1 !default;
 $gray-700: #acaaa9 !default;
 $gray-800: #7b7a79 !default;
 $gray-900: #494948 !default;
-$black:    #020202 !default;
+$black: #020202 !default;
+$light: $gray-400;
 
 $text-muted: $gray-700;
 
@@ -19,11 +20,16 @@ $component-active-bg: $secondary;
 
 $input-color: $primary;
 $custom-select-bg: $gray-300;
+$input-focus-box-shadow: 0 0 0 0.2rem #f3dfa240;
+$form-select-focus-box-shadow: 0 0 0 0.2rem #f3dfa240;
+$form-select-indicator-padding: 2.5rem;
+$form-select-bg-size: 12px 9px;
+$form-select-bg: $gray-400;
 
 $input-padding-x: 1.3rem;
-$input-padding-y: .8rem;
+$input-padding-y: 0.8rem;
 
-$font-family-sans-serif: 'Istok Web', sans-serif;
+$font-family-sans-serif: "Istok Web", sans-serif;
 $font-size-base: 0.9rem;
 $input-font-size: 1.4rem;
 
@@ -44,11 +50,31 @@ $badge-padding-y: 0.75em;
 $enable-rounded: false;
 $enable-responsive-font-sizes: true;
 
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+);
+
 @import "~bootstrap/scss/bootstrap";
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-.display-1, .display-2, .display-3, .display-4 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.display-1,
+.display-2,
+.display-3,
+.display-4 {
   letter-spacing: -0.05rem;
 }
 
@@ -57,7 +83,7 @@ input {
 }
 
 .font-serif {
-  font-family: 'Lora', serif;
+  font-family: "Lora", serif;
 }
 
 .font-letter-spacing-loose {

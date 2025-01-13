@@ -199,7 +199,7 @@ search.addWidgets([
     placeholder: "Type in a song, artist or album name",
     autofocus: true,
     cssClasses: {
-      input: "form-control",
+      input: "form-control searchbox-input",
     },
     queryHook(query, search) {
       const modifiedQuery = queryWithoutStopWords(query);
@@ -248,7 +248,7 @@ search.addWidgets([
     },
     templates: {
       item: `
-            <h6 class="text-primary font-weight-light font-letter-spacing-loose mb-0">
+            <h6 class="text-primary fw-light font-letter-spacing-loose mb-0">
               {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
             </h6>
             <div>
@@ -262,9 +262,9 @@ search.addWidgets([
               {{ release_date_display }}
             </div>
 
-            <div class="mt-auto text-right">
+            <div class="mt-auto text-end">
               {{#urls}}
-              <a href="{{ url }}" target="_blank" class="ml-1"><img src="{{ icon }}" alt="{{ type }}" height="14"></a>
+              <a href="{{ url }}" target="_blank" class="ms-1"><img src="{{ icon }}" alt="{{ type }}" height="14"></a>
               {{/urls}}
             </div>
         `,
@@ -303,9 +303,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm align-content-center",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   refinementList({
@@ -320,9 +320,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   refinementList({
@@ -337,9 +337,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   refinementList({
@@ -354,9 +354,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   menu({
@@ -365,9 +365,9 @@ search.addWidgets([
     sortBy: ["name:asc"],
     cssClasses: {
       list: "list-unstyled",
-      item: "pl-2 mb-2 text-normal",
-      count: "badge badge-light bg-light-2 ml-2",
-      selectedItem: "bg-secondary p-2 pl-3",
+      item: "ps-2 mb-2 text-normal",
+      count: "badge bg-light text-bg-light ms-2",
+      selectedItem: "bg-secondary p-2 ps-3",
     },
   }),
   configure({
@@ -380,7 +380,7 @@ search.addWidgets([
       { label: "Oldest first", value: `${INDEX_NAME}/sort/release_date:asc` },
     ],
     cssClasses: {
-      select: "custom-select custom-select-sm",
+      select: "form-select form-select-sm",
     },
   }),
   currentRefinements({
@@ -389,8 +389,8 @@ search.addWidgets([
       list: "list-unstyled",
       label: "d-none",
       item: "h5",
-      category: "badge badge-light bg-light-2 px-3",
-      delete: "btn btn-sm btn-link p-0 pl-2",
+      category: "badge bg-light text-bg-light px-3",
+      delete: "btn btn-sm btn-link p-0 ps-2",
     },
     transformItems: (items) => {
       const modifiedItems = items.map((item) => {
