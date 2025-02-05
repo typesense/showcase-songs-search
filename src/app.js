@@ -2,7 +2,6 @@ import jQuery from "jquery";
 
 window.$ = jQuery; // workaround for https://github.com/parcel-bundler/parcel/issues/333
 
-import "popper.js";
 import "bootstrap";
 
 import instantsearch from "instantsearch.js/es";
@@ -11,12 +10,13 @@ import {
   infiniteHits,
   configure,
   stats,
-  analytics,
   refinementList,
   menu,
   sortBy,
   currentRefinements,
 } from "instantsearch.js/es/widgets";
+import { history } from "instantsearch.js/es/lib/routers";
+
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import { SearchClient as TypesenseSearchClient } from "typesense"; // To get the total number of docs
 import images from "../images/*.*";
@@ -180,16 +180,38 @@ const searchClient = typesenseInstantsearchAdapter.searchClient;
 const search = instantsearch({
   searchClient,
   indexName: INDEX_NAME,
-  routing: true,
-  searchFunction(helper) {
-    if (helper.state.query === "") {
+  routing: {
+    router: history({ cleanUrlOnDispose: true }),
+  },
+  onStateChange({ uiState, setUiState }) {
+    if (uiState[INDEX_NAME].query === "") {
       $("#results-section").addClass("d-none");
     } else {
       $("#results-section").removeClass("d-none");
-      helper.search();
+      setUiState(uiState);
     }
   },
+  future: {
+    preserveSharedStateOnUnmount: true,
+  },
 });
+
+const analyticsMiddleware = () => {
+  return {
+    onStateChange() {
+      window.ga(
+        "set",
+        "page",
+        (window.location.pathname + window.location.search).toLowerCase()
+      );
+      window.ga("send", "pageView");
+    },
+    subscribe() {},
+    unsubscribe() {},
+  };
+};
+
+search.use(analyticsMiddleware);
 
 search.addWidgets([
   searchBox({
@@ -199,25 +221,13 @@ search.addWidgets([
     placeholder: "Type in a song, artist or album name",
     autofocus: true,
     cssClasses: {
-      input: "form-control",
+      input: "form-control searchbox-input",
     },
     queryHook(query, search) {
       const modifiedQuery = queryWithoutStopWords(query);
       if (modifiedQuery.trim() !== "") {
         search(modifiedQuery);
       }
-    },
-  }),
-
-  analytics({
-    // eslint-disable-next-line no-unused-vars
-    pushFunction(formattedParameters, state, results) {
-      window.ga(
-        "set",
-        "page",
-        (window.location.pathname + window.location.search).toLowerCase()
-      );
-      window.ga("send", "pageView");
     },
   }),
 
@@ -247,28 +257,32 @@ search.addWidgets([
       loadMore: "btn btn-primary mx-auto d-block mt-4",
     },
     templates: {
-      item: `
-            <h6 class="text-primary font-weight-light font-letter-spacing-loose mb-0">
-              {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
-            </h6>
-            <div>
-              by
-              <a role="button" class="clickable-search-term">{{#helpers.highlight}}{ "attribute": "primary_artist_name" }{{/helpers.highlight}}</a>
-            </div>
-            <div class="mt-3">
-              from {{#helpers.highlight}}{ "attribute": "album_name" }{{/helpers.highlight}}
-            </div>
-            <div class="text-muted small mb-2">
-              {{ release_date_display }}
-            </div>
+      item: (hit, { html, components }) => html`
+        <h6 class="text-primary fw-light font-letter-spacing-loose mb-0">
+          ${components.Highlight({ hit, attribute: "title" })}
+        </h6>
+        <div>
+          by${" "}
+          <a role="button" class="clickable-search-term">
+            ${components.Highlight({ hit, attribute: "primary_artist_name" })}
+          </a>
+        </div>
+        <div class="mt-3">
+          from ${components.Highlight({ hit, attribute: "album_name" })}
+        </div>
+        <div class="text-muted small mb-2">${hit.release_date_display}</div>
 
-            <div class="mt-auto text-right">
-              {{#urls}}
-              <a href="{{ url }}" target="_blank" class="ml-1"><img src="{{ icon }}" alt="{{ type }}" height="14"></a>
-              {{/urls}}
-            </div>
-        `,
-      empty: "No songs found for <q>{{ query }}</q>. Try another search term.",
+        <div class="mt-auto text-end">
+          ${hit.urls.map(
+            (url) =>
+              html`<a href="${url.url}" target="_blank" class="ms-2">
+                <img src="${url.icon}" alt="${url.type}" height="14" />
+              </a>`
+          )}
+        </div>
+      `,
+      empty: (data, { html }) =>
+        html`No songs found for <q>${data.query}</q>. Try another search term.`,
     },
     transformItems: (items) => {
       return items.map((item) => {
@@ -303,9 +317,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm align-content-center",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   refinementList({
@@ -320,9 +334,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   refinementList({
@@ -337,9 +351,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   refinementList({
@@ -354,9 +368,9 @@ search.addWidgets([
       searchableReset: "d-none",
       showMore: "btn btn-secondary btn-sm",
       list: "list-unstyled",
-      count: "badge badge-light bg-light-2 ml-2",
-      label: "d-flex align-items-center",
-      checkbox: "mr-2",
+      count: "badge bg-light text-bg-light ms-2",
+      label: "d-flex align-items-center mb-2",
+      checkbox: "me-2",
     },
   }),
   menu({
@@ -365,9 +379,9 @@ search.addWidgets([
     sortBy: ["name:asc"],
     cssClasses: {
       list: "list-unstyled",
-      item: "pl-2 mb-2 text-normal",
-      count: "badge badge-light bg-light-2 ml-2",
-      selectedItem: "bg-secondary p-2 pl-3",
+      item: "ps-2 mb-2 text-normal",
+      count: "badge bg-light text-bg-light ms-2",
+      selectedItem: "bg-secondary p-2 ps-3",
     },
   }),
   configure({
@@ -380,7 +394,7 @@ search.addWidgets([
       { label: "Oldest first", value: `${INDEX_NAME}/sort/release_date:asc` },
     ],
     cssClasses: {
-      select: "custom-select custom-select-sm",
+      select: "form-select form-select-sm",
     },
   }),
   currentRefinements({
@@ -389,8 +403,8 @@ search.addWidgets([
       list: "list-unstyled",
       label: "d-none",
       item: "h5",
-      category: "badge badge-light bg-light-2 px-3",
-      delete: "btn btn-sm btn-link p-0 pl-2",
+      category: "badge bg-light text-bg-light px-3",
+      delete: "btn btn-sm btn-link p-0 ps-2",
     },
     transformItems: (items) => {
       const modifiedItems = items.map((item) => {
@@ -420,11 +434,10 @@ search.start();
 
 $(function () {
   const $searchBox = $("#searchbox input[type=search]");
-  // Set initial search term
-  // if ($searchBox.val().trim() === '') {
-  //   $searchBox.val('Song');
-  //   search.helper.setQuery($searchBox.val()).search();
-  // }
+  // Search on page refresh with the query restored from URL params
+  if ($searchBox.val().trim() !== "") {
+    search.helper.setQuery($searchBox.val()).search();
+  }
 
   // Handle example search terms
   $(".clickable-search-term").on("click", handleSearchTermClick);
